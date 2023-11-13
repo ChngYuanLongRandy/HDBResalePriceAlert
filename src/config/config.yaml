@@ -1,0 +1,39 @@
+params:
+    hdb_link : https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator
+    hdb_title : Resale Flat Prices
+    user_profile_title : "userProfileB"
+    flat_type_title : "FLAT_TYPE"
+    flat_type_val : Keys.NUMPAD4
+    town_title : "NME_NEWTOWN"
+    town_val : None
+    # town_val = "a"
+    street_title : "NME_STREET"
+    # street_val = None
+    street_val : Ang Mo Kio Ave 3
+    date_range_title : "dteRange"
+    submit_btn_id : "btnSubmit"
+
+# for Street
+headers_street :
+    - Block
+    - HDB Town
+    - Storey
+    - Floor Area (sqm) 
+    - Flat Model
+    - Lease Commence Date
+    - Remaining Lease
+    - Resale Price
+    - Resale Registration Date
+
+# for HDB Town
+headers_hdb :
+    - Block
+    - Street Name
+    - Storey
+    - Floor Area (sqm) 
+    - Flat Model
+    - Lease Commence Date
+    - Remaining Lease
+    - Resale Price
+    - Resale Registration Date
+
