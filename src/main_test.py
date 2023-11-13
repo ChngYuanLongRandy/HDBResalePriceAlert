@@ -2,6 +2,17 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import pandas as pd
+import smtplib, ssl
+
+port = 465  # For SSL
+smtp_server = "smtp.gmail.com"
+sender_email = 'hdbresalealertservice@gmail.com'
+receiver_email  = 'chngyuanlong@gmail.com'
+password = "qcbx wfzf eysm xlxk"
+message = """\
+Subject: Hi there
+
+This message is sent from Python."""
 
 hdb_link = "https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator"
 hdb_title = "Resale Flat Prices"
@@ -55,6 +66,7 @@ def main_hdb():
     run_query_success(driver, params_hdb)
     df = write_to_dataframe_hdb(driver, headers_hdb)
     save_dataframe(df, filepath, headers_hdb)
+    send_email({"information":df.iloc[1:5]})
 
 # start the driver, returns a webdriver chrome object
 def start_driver() -> webdriver.Chrome:
@@ -127,6 +139,13 @@ def write_to_dataframe_hdb(driver:webdriver.Chrome, headers:list)->pd.DataFrame:
 def save_dataframe(df:pd.DataFrame, filepath:str, headers:str) ->None:
     print("saving to csv...")
     df.to_csv(filepath, columns=headers_hdb, index=False)
+
+# sends an email
+def send_email(data:dict):
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message)
 
 if (__name__ == "__main__") :
     main_hdb()
