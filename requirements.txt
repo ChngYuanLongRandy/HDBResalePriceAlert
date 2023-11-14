@@ -2,3 +2,5 @@ ipykernel
 selenium
 pandas
 pyyaml
+# flask
+flask
