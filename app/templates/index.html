@@ -13,30 +13,24 @@
     <div>
         <label for="flatType">Flat Type:</label>
         <select id="flatType">
-            <!-- Populate options dynamically from backend or a predefined list -->
-            <option value="1BHK">1 BHK</option>
-            <option value="2BHK">2 BHK</option>
-            <option value="3BHK">3 BHK</option>
         </select>
     </div>
 
     <div>
         <label for="streetName">Street Name:</label>
         <select id="streetName">
-            <!-- Populate options dynamically from backend or a predefined list -->
-            <option value="Street1">Street 1</option>
-            <option value="Street2">Street 2</option>
-            <option value="Street3">Street 3</option>
         </select>
     </div>
 
     <div>
-        <label for="resaleDate">Resale Registration Date:</label>
-        <select id="resaleDate">
-            <!-- Populate options dynamically from backend or a predefined list -->
-            <option value="2023-01-01">January 1, 2023</option>
-            <option value="2023-02-01">February 1, 2023</option>
-            <option value="2023-03-01">March 1, 2023</option>
+        <label for="blkNumberFrom">Block Number from:</label>
+        <select id="blkNumberFrom">
+        </select>
+    </div>
+
+    <div>
+        <label for="blkNumberTo">Block Number to:</label>
+        <select id="blkNumberTo">
         </select>
     </div>
 
@@ -50,5 +44,6 @@
     <button onclick="registerUser()">Register</button>
 
     <script src="../static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
 </body>
 </html>

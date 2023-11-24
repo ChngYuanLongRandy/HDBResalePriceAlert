@@ -1,0 +1,697 @@
+params:
+    hdb_link : https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator
+    hdb_title : Resale Flat Prices
+    user_profile_title : "userProfileB"
+    flat_type_title : "FLAT_TYPE"
+    flat_type_val : Keys.NUMPAD4
+    town_title : "NME_NEWTOWN"
+    town_val : None
+    # town_val = "a"
+    street_title : "NME_STREET"
+    # street_val = None
+    street_val : Ang Mo Kio Ave 3
+    date_range_title : "dteRange"
+    submit_btn_id : "btnSubmit"
+
+flat_type_combobox:
+    - 1-Room
+    - 2-Room
+    - 3-Room
+    - 4-Room
+    - 5-Room
+    - Executive
+    - Multi-Generation
+
+hdb_town_combobox:
+    - Ang Mo Kio
+    - Bedok
+    - Bishan
+    - Bukit Batok
+    - Bukit Merah
+    - Bukit Panjang
+    - Bukit Timah
+    - Central Area
+    - Choa Chu Kang
+    - Clementi
+    - Geylang
+    - Hougang
+    - Jurong East
+    - Jurong West
+    - Kallang/Whampoa
+    - Marine Parade
+    - Pasir Ris
+    - Punggol
+    - Queenstown
+    - Sembawang
+    - Sengkang
+    - Serangoon
+    - Tampines
+    - Tengah
+    - Toa Payoh
+    - Woodlands
+    - Yishun
+
+street_name_combobox:
+    - Admiralty Dr
+    - Admiralty Link
+    - Ah Hood Rd
+    - Aljunied Ave 2
+    - Aljunied Cres
+    - Aljunied Rd
+    - Alkaff Cres
+    - Anchorvale Cres
+    - Anchorvale Dr
+    - Anchorvale Lane
+    - Anchorvale Link
+    - Anchorvale Rd
+    - Anchorvale St
+    - Ang Mo Kio Ave 1
+    - Ang Mo Kio Ave 10
+    - Ang Mo Kio Ave 2
+    - Ang Mo Kio Ave 3
+    - Ang Mo Kio Ave 4
+    - Ang Mo Kio Ave 5
+    - Ang Mo Kio Ave 6
+    - Ang Mo Kio Ave 8
+    - Ang Mo Kio Ave 9
+    - Ang Mo Kio St 11
+    - Ang Mo Kio St 21
+    - Ang Mo Kio St 23
+    - Ang Mo Kio St 31
+    - Ang Mo Kio St 32
+    - Ang Mo Kio St 44
+    - Ang Mo Kio St 51
+    - Ang Mo Kio St 52
+    - Ang Mo Kio St 61
+    - Bain St
+    - Balam Rd
+    - Banda St
+    - Bangkit Rd
+    - Beach Rd
+    - Bedok Ctrl
+    - Bedok Nth Ave 1
+    - Bedok Nth Ave 2
+    - Bedok Nth Ave 3
+    - Bedok Nth Ave 4
+    - Bedok Nth Dr
+    - Bedok Nth Rd
+    - Bedok Nth St 1
+    - Bedok Nth St 2
+    - Bedok Nth St 3
+    - Bedok Nth St 4
+    - Bedok Reservoir Cres
+    - Bedok Reservoir Rd
+    - Bedok Reservoir View
+    - Bedok Sth Ave 1
+    - Bedok Sth Ave 2
+    - Bedok Sth Ave 3
+    - Bedok Sth Rd
+    - Bendemeer Rd
+    - Beo Cres
+    - Bidadari Pk Dr
+    - Bishan St 11
+    - Bishan St 12
+    - Bishan St 13
+    - Bishan St 22
+    - Bishan St 23
+    - Bishan St 24
+    - Boon Keng Rd
+    - Boon Lay Ave
+    - Boon Lay Dr
+    - Boon Lay Pl
+    - Boon Tiong Rd
+    - Bright Hill Dr
+    - Bt Batok Ctrl
+    - Bt Batok East Ave 3
+    - Bt Batok East Ave 4
+    - Bt Batok East Ave 5
+    - Bt Batok East Ave 6
+    - Bt Batok St 11
+    - Bt Batok St 21
+    - Bt Batok St 22
+    - Bt Batok St 24
+    - Bt Batok St 25
+    - Bt Batok St 31
+    - Bt Batok St 32
+    - Bt Batok St 33
+    - Bt Batok St 34
+    - Bt Batok St 41
+    - Bt Batok St 51
+    - Bt Batok St 52
+    - Bt Batok West Ave 2
+    - Bt Batok West Ave 4
+    - Bt Batok West Ave 5
+    - Bt Batok West Ave 6
+    - Bt Batok West Ave 7
+    - Bt Batok West Ave 8
+    - Bt Batok West Ave 9
+    - Bt Merah Ctrl
+    - Bt Merah Lane 1
+    - Bt Merah View
+    - Bt Panjang Ring Rd
+    - Bt Purmei Rd
+    - Buangkok Cres
+    - Buangkok Green
+    - Buangkok Link
+    - Buffalo Rd
+    - C'wealth Ave
+    - C'wealth Ave West
+    - C'wealth Cl
+    - C'wealth Cres
+    - C'wealth Dr
+    - Cambridge Rd
+    - Canberra Cres
+    - Canberra Link
+    - Canberra Rd
+    - Canberra St
+    - Canberra View
+    - Canberra Walk
+    - Cantonment Cl
+    - Cantonment Rd
+    - Cashew Rd
+    - Cassia Cres
+    - Chai Chee Ave
+    - Chai Chee Dr
+    - Chai Chee Rd
+    - Chai Chee St
+    - Champions Way
+    - Chander Rd
+    - Changi Village Rd
+    - Chay Yan St
+    - Chin Swee Rd
+    - Choa Chu Kang Ave 1
+    - Choa Chu Kang Ave 2
+    - Choa Chu Kang Ave 3
+    - Choa Chu Kang Ave 4
+    - Choa Chu Kang Ave 5
+    - Choa Chu Kang Ave 7
+    - Choa Chu Kang Cres
+    - Choa Chu Kang Ctrl
+    - Choa Chu Kang Dr
+    - Choa Chu Kang Loop
+    - Choa Chu Kang Nth 5
+    - Choa Chu Kang Nth 6
+    - Choa Chu Kang Nth 7
+    - Choa Chu Kang St 51
+    - Choa Chu Kang St 52
+    - Choa Chu Kang St 53
+    - Choa Chu Kang St 54
+    - Choa Chu Kang St 62
+    - Choa Chu Kang St 64
+    - Circuit Rd
+    - Clarence Lane
+    - Clementi Ave 1
+    - Clementi Ave 2
+    - Clementi Ave 3
+    - Clementi Ave 4
+    - Clementi Ave 5
+    - Clementi Ave 6
+    - Clementi St 11
+    - Clementi St 12
+    - Clementi St 13
+    - Clementi St 14
+    - Clementi West St 1
+    - Clementi West St 2
+    - Compassvale Bow
+    - Compassvale Cres
+    - Compassvale Dr
+    - Compassvale Lane
+    - Compassvale Link
+    - Compassvale Rd
+    - Compassvale St
+    - Compassvale Walk
+    - Corporation Dr
+    - Crawford Lane
+    - Dakota Cres
+    - Dawson Rd
+    - Delta Ave
+    - Depot Rd
+    - Dorset Rd
+    - Dover Cl East
+    - Dover Cres
+    - Dover Rd
+    - Edgedale Plains
+    - Edgefield Plains
+    - Edgefield Walk
+    - Elias Rd
+    - Empress Rd
+    - Eng Hoon St
+    - Eng Watt St
+    - Eunos Cres
+    - Eunos Rd 2
+    - Eunos Rd 5
+    - Everton Pk
+    - Fajar Rd
+    - Farrer Pk Rd
+    - Farrer Rd
+    - Fernvale Lane
+    - Fernvale Link
+    - Fernvale Rd
+    - Fernvale St
+    - French Rd
+    - Gangsa Rd
+    - Geylang Bahru
+    - Geylang East Ave 1
+    - Geylang East Ave 2
+    - Geylang East Ctrl
+    - Geylang Serai
+    - Ghim Moh Link
+    - Ghim Moh Rd
+    - Gloucester Rd
+    - Guan Chuan St
+    - Haig Rd
+    - Havelock Rd
+    - Henderson Cres
+    - Henderson Rd
+    - Ho Ching Rd
+    - Holland Ave
+    - Holland Cl
+    - Holland Dr
+    - Hougang Ave 1
+    - Hougang Ave 10
+    - Hougang Ave 2
+    - Hougang Ave 3
+    - Hougang Ave 4
+    - Hougang Ave 5
+    - Hougang Ave 6
+    - Hougang Ave 7
+    - Hougang Ave 8
+    - Hougang Ave 9
+    - Hougang Ctrl
+    - Hougang St 11
+    - Hougang St 21
+    - Hougang St 22
+    - Hougang St 31
+    - Hougang St 32
+    - Hougang St 51
+    - Hougang St 52
+    - Hougang St 61
+    - Hougang St 91
+    - Hougang St 92
+    - Hoy Fatt Rd
+    - Indus Rd
+    - Jelapang Rd
+    - Jelebu Rd
+    - Jellicoe Rd
+    - Jln Ayer
+    - Jln Bahagia
+    - Jln Batu
+    - Jln Berseh
+    - Jln Bt Ho Swee
+    - Jln Bt Merah
+    - Jln Damai
+    - Jln Dua
+    - Jln Dusun
+    - Jln Kayu
+    - Jln Klinik
+    - Jln Kukoh
+    - Jln Ma'mor
+    - Jln Membina
+    - Jln Minyak
+    - Jln Rajah
+    - Jln Rumah Tinggi
+    - Jln Satu
+    - Jln Sultan
+    - Jln Teck Whye
+    - Jln Tenaga
+    - Jln Tenteram
+    - Jln Tiga
+    - Joo Chiat Rd
+    - Joo Seng Rd
+    - Jurong East Ave 1
+    - Jurong East St 13
+    - Jurong East St 21
+    - Jurong East St 24
+    - Jurong East St 31
+    - Jurong East St 32
+    - Jurong West Ave 1
+    - Jurong West Ave 3
+    - Jurong West Ave 5
+    - Jurong West Ctrl 1
+    - Jurong West Ctrl 3
+    - Jurong West St 24
+    - Jurong West St 25
+    - Jurong West St 41
+    - Jurong West St 42
+    - Jurong West St 51
+    - Jurong West St 52
+    - Jurong West St 61
+    - Jurong West St 62
+    - Jurong West St 64
+    - Jurong West St 65
+    - Jurong West St 71
+    - Jurong West St 72
+    - Jurong West St 73
+    - Jurong West St 74
+    - Jurong West St 75
+    - Jurong West St 81
+    - Jurong West St 91
+    - Jurong West St 92
+    - Jurong West St 93
+    - Kallang Bahru
+    - Kang Ching Rd
+    - Keat Hong Cl
+    - Keat Hong Link
+    - Kelantan Rd
+    - Kent Rd
+    - Kg Arang Rd
+    - Kg Kayu Rd
+    - Kim Cheng St
+    - Kim Keat Ave
+    - Kim Keat Link
+    - Kim Pong Rd
+    - Kim Tian Pl
+    - Kim Tian Rd
+    - King George's Ave
+    - Kitchener Rd
+    - Klang Lane
+    - Kreta Ayer Rd
+    - Lengkok Bahru
+    - Lengkong Tiga
+    - Lim Liak St
+    - Lompang Rd
+    - Lor Ah Soo
+    - Lor Lew Lian
+    - Lor Limau
+    - Lor 1 Toa Payoh
+    - Lor 1a Toa Payoh
+    - Lor 2 Toa Payoh
+    - Lor 3 Geylang
+    - Lor 3 Toa Payoh
+    - Lor 4 Toa Payoh
+    - Lor 5 Toa Payoh
+    - Lor 6 Toa Payoh
+    - Lor 7 Toa Payoh
+    - Lor 8 Toa Payoh
+    - Lower Delta Rd
+    - Macpherson Lane
+    - Margaret Dr
+    - Marine Cres
+    - Marine Dr
+    - Marine Parade Ctrl
+    - Marine Ter
+    - Marsiling Cres
+    - Marsiling Dr
+    - Marsiling Lane
+    - Marsiling Rd
+    - Marsiling Rise
+    - Maude Rd
+    - Mcnair Rd
+    - Mei Ling St
+    - Moh Guan Ter
+    - Montreal Dr
+    - Montreal Link
+    - Moulmein Rd
+    - New Mkt Rd
+    - New Upp Changi Rd
+    - Northshore Cres
+    - Northshore Dr
+    - Nth Bridge Rd
+    - Old Airport Rd
+    - Owen Rd
+    - Pandan Gdns
+    - Pasir Ris Ave
+    - Pasir Ris Dr 1
+    - Pasir Ris Dr 10
+    - Pasir Ris Dr 3
+    - Pasir Ris Dr 4
+    - Pasir Ris Dr 6
+    - Pasir Ris Hts
+    - Pasir Ris Rd
+    - Pasir Ris St 11
+    - Pasir Ris St 12
+    - Pasir Ris St 13
+    - Pasir Ris St 21
+    - Pasir Ris St 41
+    - Pasir Ris St 51
+    - Pasir Ris St 52
+    - Pasir Ris St 53
+    - Pasir Ris St 71
+    - Pasir Ris St 72
+    - Pasir Ris Ter
+    - Paya Lebar Way
+    - Pending Rd
+    - Petir Rd
+    - Pine Cl
+    - Pine Lane
+    - Pipit Rd
+    - Plantation Cres
+    - Potong Pasir Ave 1
+    - Potong Pasir Ave 2
+    - Potong Pasir Ave 3
+    - Punggol Ctrl
+    - Punggol Dr
+    - Punggol East
+    - Punggol Field
+    - Punggol Field Walk
+    - Punggol Pl
+    - Punggol Rd
+    - Punggol Walk
+    - Punggol Way
+    - Queen St
+    - Queen's Cl
+    - Queen's Rd
+    - Queensway
+    - Race Course Rd
+    - Redhill Cl
+    - Redhill Lane
+    - Redhill Rd
+    - Rivervale Cres
+    - Rivervale Dr
+    - Rivervale St
+    - Rivervale Walk
+    - Rowell Rd
+    - Sago Lane
+    - Saujana Rd
+    - Sector A Sin Ming Ind Est
+    - Segar Rd
+    - Selegie Rd
+    - Sembawang Cl
+    - Sembawang Cres
+    - Sembawang Dr
+    - Sembawang Vista
+    - Sembawang Way
+    - Seng Poh Rd
+    - Sengkang Ctrl
+    - Sengkang East Ave
+    - Sengkang East Dr
+    - Sengkang East Rd
+    - Sengkang East Way
+    - Sengkang West Ave
+    - Sengkang West Rd
+    - Sengkang West Way
+    - Senja Cl
+    - Senja Link
+    - Senja Rd
+    - Serangoon Ave 1
+    - Serangoon Ave 2
+    - Serangoon Ave 3
+    - Serangoon Ave 4
+    - Serangoon Ctrl
+    - Serangoon Ctrl Dr
+    - Serangoon Nth Ave 1
+    - Serangoon Nth Ave 2
+    - Serangoon Nth Ave 3
+    - Serangoon Nth Ave 4
+    - Shunfu Rd
+    - Silat Ave
+    - Simei Lane
+    - Simei Rd
+    - Simei St 1
+    - Simei St 2
+    - Simei St 4
+    - Simei St 5
+    - Sims Ave
+    - Sims Dr
+    - Sims Pl
+    - Sin Ming Ave
+    - Sin Ming Rd
+    - Smith St
+    - Spooner Rd
+    - Spottiswoode Pk Rd
+    - St. George's Lane
+    - St. George's Rd
+    - Stirling Rd
+    - Strathmore Ave
+    - Sumang Lane
+    - Sumang Link
+    - Sumang Walk
+    - Tah Ching Rd
+    - Taman Ho Swee
+    - Tampines Ave 1
+    - Tampines Ave 12
+    - Tampines Ave 2
+    - Tampines Ave 4
+    - Tampines Ave 5
+    - Tampines Ave 7
+    - Tampines Ave 8
+    - Tampines Ave 9
+    - Tampines Ctrl 1
+    - Tampines Ctrl 7
+    - Tampines Ctrl 8
+    - Tampines Nth Dr 1
+    - Tampines Nth Dr 2
+    - Tampines St 11
+    - Tampines St 12
+    - Tampines St 21
+    - Tampines St 22
+    - Tampines St 23
+    - Tampines St 24
+    - Tampines St 32
+    - Tampines St 33
+    - Tampines St 34
+    - Tampines St 41
+    - Tampines St 42
+    - Tampines St 43
+    - Tampines St 44
+    - Tampines St 45
+    - Tampines St 61
+    - Tampines St 62
+    - Tampines St 71
+    - Tampines St 72
+    - Tampines St 81
+    - Tampines St 82
+    - Tampines St 83
+    - Tampines St 84
+    - Tampines St 85
+    - Tampines St 86
+    - Tampines St 91
+    - Tampines Walk
+    - Tanglin Halt Rd
+    - Tao Ching Rd
+    - Teban Gdns Rd
+    - Teck Whye Ave
+    - Teck Whye Cres
+    - Teck Whye Lane
+    - Telok Blangah Cres
+    - Telok Blangah Dr
+    - Telok Blangah Hts
+    - Telok Blangah Rise
+    - Telok Blangah St 31
+    - Telok Blangah Way
+    - Tengah Gdn Ave
+    - Tessensohn Rd
+    - Tg Pagar Plaza
+    - Thomson Rd
+    - Tiong Bahru Rd
+    - Tiong Poh Rd
+    - Toa Payoh Ctrl
+    - Toa Payoh East
+    - Toa Payoh Nth
+    - Toh Guan Rd
+    - Toh Yi Dr
+    - Towner Rd
+    - Ubi Ave 1
+    - Ubi Rd 3
+    - Upp Aljunied Lane
+    - Upp Boon Keng Rd
+    - Upp Cross St
+    - Upp Jurong Rd
+    - Upp Serangoon Cres
+    - Upp Serangoon Rd
+    - Upp Serangoon View
+    - Veerasamy Rd
+    - Waterloo St
+    - Wellington Circle
+    - West Coast Cres
+    - West Coast Dr
+    - West Coast Rd
+    - Whampoa Dr
+    - Whampoa Rd
+    - Whampoa Sth
+    - Whampoa West
+    - Woodlands Ave 1
+    - Woodlands Ave 3
+    - Woodlands Ave 4
+    - Woodlands Ave 5
+    - Woodlands Ave 6
+    - Woodlands Ave 9
+    - Woodlands Circle
+    - Woodlands Cres
+    - Woodlands Dr 14
+    - Woodlands Dr 16
+    - Woodlands Dr 40
+    - Woodlands Dr 42
+    - Woodlands Dr 44
+    - Woodlands Dr 50
+    - Woodlands Dr 52
+    - Woodlands Dr 53
+    - Woodlands Dr 60
+    - Woodlands Dr 62
+    - Woodlands Dr 70
+    - Woodlands Dr 71
+    - Woodlands Dr 72
+    - Woodlands Dr 73
+    - Woodlands Dr 75
+    - Woodlands Ring Rd
+    - Woodlands Rise
+    - Woodlands St 11
+    - Woodlands St 13
+    - Woodlands St 31
+    - Woodlands St 32
+    - Woodlands St 41
+    - Woodlands St 81
+    - Woodlands St 82
+    - Woodlands St 83
+    - Woodleigh Link
+    - Yishun Ave 1
+    - Yishun Ave 11
+    - Yishun Ave 2
+    - Yishun Ave 3
+    - Yishun Ave 4
+    - Yishun Ave 5
+    - Yishun Ave 6
+    - Yishun Ave 7
+    - Yishun Ave 9
+    - Yishun Ctrl
+    - Yishun Ctrl 1
+    - Yishun Ring Rd
+    - Yishun St 11
+    - Yishun St 20
+    - Yishun St 21
+    - Yishun St 22
+    - Yishun St 31
+    - Yishun St 41
+    - Yishun St 42
+    - Yishun St 43
+    - Yishun St 44
+    - Yishun St 51
+    - Yishun St 61
+    - Yishun St 71
+    - Yishun St 72
+    - Yishun St 81
+    - Yong Siak St
+    - York Hill
+    - Yuan Ching Rd
+    - Yung An Rd
+    - Yung Ho Rd
+    - Yung Kuang Rd
+    - Yung Loh Rd
+    - Yung Ping Rd
+    - Yung Sheng Rd
+    - Zion Rd
+
+# for Street
+headers_street :
+    - Block
+    - HDB Town
+    - Storey
+    - Floor Area (sqm) 
+    - Flat Model
+    - Lease Commence Date
+    - Remaining Lease
+    - Resale Price
+    - Resale Registration Date
+
+# for HDB Town
+headers_hdb :
+    - Block
+    - Street Name
+    - Storey
+    - Floor Area (sqm) 
+    - Flat Model
+    - Lease Commence Date
+    - Remaining Lease
+    - Resale Price
+    - Resale Registration Date
+

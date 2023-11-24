@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template
+from services import hdbService
 
 app = Flask(__name__)
+config_path = "./config/config.yaml"
 
 # Sample data storage (replace this with a database in a real application)
 submitted_data = []
