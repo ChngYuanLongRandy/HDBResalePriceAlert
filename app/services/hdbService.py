@@ -1,103 +1,57 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 import pandas as pd
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
+import yaml
 
+config_path = "app/config/config.yaml"
+with open(config_path, 'r') as yaml_file:
+    configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
-
-hdb_link = "https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator"
-hdb_title = "Resale Flat Prices"
-user_profile_title = "userProfileB"
-flat_type_title = "FLAT_TYPE"
-flat_type_val = Keys.NUMPAD4
-town_title = "NME_NEWTOWN"
-town_val = None
-# town_val = "a"
-street_title = "NME_STREET"
-# street_val = None
-street_val = "Ang Mo Kio Ave 3"
-blk_from_title = "NUM_BLK_FROM"
-blk_to_title = "NUM_BLK_TO"
-blk_from_val = "322"
-blk_to_val = "328"
-date_range_title = "dteRange"
-submit_btn_id = "btnSubmit"
-
-params_hdb = {"hdb_link":hdb_link,
-          "hdb_title":hdb_title,
-          "user_profile_title":user_profile_title,
-          "flat_type_title":flat_type_title,
-          "flat_type_val":flat_type_val,
-          "town_title":town_title,
-          "town_val":town_val,
-          "street_title":street_title,
-          "street_val":street_val,
-          "blk_from_title":blk_from_title,
-          "blk_to_title":blk_to_title,
-          "blk_from_val":blk_from_val,
-          "blk_to_val":blk_to_val,
-          "date_range_title":date_range_title,
-          "submit_btn_id":submit_btn_id}
-
-# for HDB Town
-headers_hdb = [
-    "Block",
-    "Street Name",
-    "Storey",
-    "Floor Area (sqm)" , 
-    "Flat Model",
-    "Lease Commence Date",
-    "Remaining Lease",
-    "Resale Price",
-    "Resale Registration Date"
-    ]
-
-# for Street
-headers_street = [
-    "Block",
-    "HDB Town",
-    "Storey",
-    "Floor Area (sqm)" , 
-    "Flat Model",
-    "Lease Commence Date",
-    "Remaining Lease",
-    "Resale Price",
-    "Resale Registration Date"
-    ]
 
 filepath = "hdb.csv"
 
-def main_hdb():
-    driver = start_driver()
-    run_query_success(driver, params_hdb)
-    if params_hdb["street_val"]:
-        df = write_to_dataframe_street(driver, headers_street)
-        save_dataframe(df, filepath, headers_street)
-    else:
-        df = write_to_dataframe_hdb(driver, headers_hdb)
-        save_dataframe(df, filepath, headers_hdb)
-    send_email(df)
+# def main_hdb():
+#     driver = start_driver()
+#     run_query_success(driver, params_hdb)
+#     if params_hdb["street_val"]:
+#         df = write_to_dataframe_street(driver, headers_street)
+#         save_dataframe(df, filepath, headers_street)
+#     else:
+#         df = write_to_dataframe_hdb(driver, headers_hdb)
+#         save_dataframe(df, filepath, headers_hdb)
+#     send_email(df)
 
 def get_results(params:dict, headers: list, format:str ="json"):
-    driver = start_driver()
-    run_query_success(driver, params)
-    if params["street_val"]:
-        df = write_to_dataframe_street(driver, headers)
-    else:
-        df = write_to_dataframe_hdb(driver, headers)
-    if format.lower() == "df":
-        return df
-    elif format.lower() == "json":
-        return df.to_json(orient='records')
+    print("Starting get results method")
+    print(f"Params are :{params}")
+    try:
+        driver = start_driver(params)
+        run_query_success(driver, params)
+        if params["street_val"]:
+            df = write_to_dataframe_street(driver, headers)
+        else:
+            df = write_to_dataframe_hdb(driver, headers)
+        if format.lower() == "df":
+            return df
+        elif format.lower() == "json":
+            return df.to_json(orient='records')
+    except Exception as ex:
+        print(f"Unable to process due to {ex}")
 
 # start the driver, returns a webdriver chrome object
-def start_driver() -> webdriver.Chrome:
-    driver = webdriver.Chrome()
-    driver.get(hdb_link)
-    assert hdb_title in driver.title
+def start_driver(params:dict) -> webdriver.Chrome:
+
+    # Set up Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')  # Run in headless mode
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get(params["hdb_link"])
+    assert params["hdb_title"] in driver.title
     return driver
 
 # runs the query in the website with HDB town 
@@ -221,5 +175,5 @@ def send_email(df:pd.DataFrame):
     except Exception as ex:
         print(f"Unable to send email due to {ex} ")
 
-if (__name__ == "__main__") :
-    main_hdb()
+# if (__name__ == "__main__") :
+#     main_hdb()

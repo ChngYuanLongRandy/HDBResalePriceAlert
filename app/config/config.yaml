@@ -1,15 +1,18 @@
 params:
     hdb_link : https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator
     hdb_title : Resale Flat Prices
-    user_profile_title : "userProfileB"
+    # user_profile_title : "userProfileB"
+    user_profile_title : "userProfileS"
     flat_type_title : "FLAT_TYPE"
-    flat_type_val : Keys.NUMPAD4
+    flat_type_val : "4-Room"
     town_title : "NME_NEWTOWN"
     town_val : None
     # town_val = "a"
     street_title : "NME_STREET"
     # street_val = None
     street_val : Ang Mo Kio Ave 3
+    blk_from_title : "NUM_BLK_FROM"
+    blk_to_title : "NUM_BLK_TO"
     date_range_title : "dteRange"
     submit_btn_id : "btnSubmit"
 

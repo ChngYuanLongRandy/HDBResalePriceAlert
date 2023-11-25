@@ -2,5 +2,5 @@ ipykernel
 selenium
 pandas
 pyyaml
-# flask
 flask
+Flask-SQLAlchemy #DB

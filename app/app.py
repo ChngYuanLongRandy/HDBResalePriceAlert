@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
+import yaml
 
 app = Flask(__name__)
-config_path = "./config/config.yaml"
+config_path = "app/config/config.yaml"
 
 # Sample data storage (replace this with a database in a real application)
 submitted_data = []
@@ -19,17 +20,37 @@ def serve_config(filename):
 @app.route('/submit', methods=['POST'])
 def submit():
 
-    print(f"Params from hdbService {hdbService.params_hdb} before retreiving from user")
+    print("Submit request sent")
+
+    with open(config_path, 'r') as yaml_file:
+        configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
+
+    params = configData
+    print(params["params"])
 
     try:
         data = request.get_json()
-        hdbService.params_hdb['flatType_val'] = data['flatType']
-        hdbService.params_hdb['street_val'] = data['streetName']
-        hdbService.params_hdb['blk_from_val'] = data['blkNumberFrom']
-        hdbService.params_hdb['blk_to_val'] = data['blkNumberTo']
-        print(f"Params from hdbService {hdbService.params_hdb} after retreiving from user")
 
-        df = hdbService.get_results(hdbService.params_hdb, hdbService.headers_street, "df")
+        print(f"data from user {request.get_json()}")
+
+        # hdbService.params_hdb['flatType_val'] = data['flatType']
+        # hdbService.params_hdb['street_val'] = data['streetName']
+        # hdbService.params_hdb['blk_from_val'] = data['blkNumberFrom']
+        # hdbService.params_hdb['blk_to_val'] = data['blkNumberTo']
+
+        print(f"flatType : {data['flatType']}")
+        print(f"streetName : {data['streetName']}")
+        print(f"blkNumberFrom : {data['blkNumberFrom']}")
+        print(f"blkNumberTo : {data['blkNumberTo']}")
+
+        params["params"]['flat_type_val'] = data['flatType']
+        params["params"]['street_val'] = data['streetName']
+        params["params"]['blk_from_val'] = data['blkNumberFrom']
+        params["params"]['blk_to_val'] = data['blkNumberTo']
+
+        print(f"Params {params["params"]} after retreiving from user")
+
+        df = hdbService.get_results(params["params"], params["headers_street"], "df")
         print(f"Results in dataframe format : {df}")
         json_results = {
             'columns': df.columns.tolist(),  # Convert columns to a list

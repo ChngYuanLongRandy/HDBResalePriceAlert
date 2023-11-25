@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function submitForm() {
+
     const flatType = document.getElementById('flatType').value;
     const streetName = document.getElementById('streetName').value;
     const blkNumberFrom = document.getElementById('blkNumberFrom').value;
@@ -77,48 +78,57 @@ function submitForm() {
 
     // Function to handle result display
     function displayResults(results) {
-        // Assuming you have a div with id "resultContainer" to display the results
-        const resultContainer = document.getElementById('resultContainer');
 
-        // Clear previous results
-        resultContainer.innerHTML = '';
+        if (results.data.length > 0 ) {
+            // Assuming you have a div with id "resultContainer" to display the results
+            const resultContainer = document.getElementById('resultContainer');
 
-        // Create a table to display the results
-        const table = document.createElement('table');
-        table.border = '1';
+            // Clear previous results
+            resultContainer.innerHTML = '';
 
-        // Create table header
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
+            // Create a table to display the results
+            const table = document.createElement('table');
+            table.border = '1';
 
-        results.columns.forEach(column => {
-            const th = document.createElement('th');
-            th.textContent = column;
-            headerRow.appendChild(th);
-        });
+            // Create table header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
 
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-
-        // Create table body
-        const tbody = document.createElement('tbody');
-
-        results.data.forEach(rowData => {
-            const tr = document.createElement('tr');
-
-            rowData.forEach(cellData => {
-                const td = document.createElement('td');
-                td.textContent = cellData;
-                tr.appendChild(td);
+            results.columns.forEach(column => {
+                const th = document.createElement('th');
+                th.textContent = column;
+                headerRow.appendChild(th);
             });
 
-            tbody.appendChild(tr);
-        });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
 
-        table.appendChild(tbody);
+            // Create table body
+            const tbody = document.createElement('tbody');
 
-        // Append the table to the result container
-        resultContainer.appendChild(table);
+            results.data.forEach(rowData => {
+                const tr = document.createElement('tr');
+
+                rowData.forEach(cellData => {
+                    const td = document.createElement('td');
+                    td.textContent = cellData;
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(tbody);
+
+            // Append the table to the result container
+            resultContainer.appendChild(table);
+        }
+        
+        else {
+            // Handle the case where results is empty
+            resultContainer.innerHTML = "No results for your query"
+            console.log('No results to display.');
+        }
     }
 
 function registerUser() {
