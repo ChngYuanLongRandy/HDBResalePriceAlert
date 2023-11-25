@@ -2,17 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import pandas as pd
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import smtplib, ssl
 
-port = 465  # For SSL
-smtp_server = "smtp.gmail.com"
-sender_email = 'hdbresalealertservice@gmail.com'
-receiver_email  = 'chngyuanlong@gmail.com'
-password = "qcbx wfzf eysm xlxk"
-message = """\
-Subject: Hi there
 
-This message is sent from Python."""
 
 hdb_link = "https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator"
 hdb_title = "Resale Flat Prices"
@@ -25,6 +19,10 @@ town_val = None
 street_title = "NME_STREET"
 # street_val = None
 street_val = "Ang Mo Kio Ave 3"
+blk_from_title = "NUM_BLK_FROM"
+blk_to_title = "NUM_BLK_TO"
+blk_from_val = "322"
+blk_to_val = "328"
 date_range_title = "dteRange"
 submit_btn_id = "btnSubmit"
 
@@ -37,6 +35,10 @@ params_hdb = {"hdb_link":hdb_link,
           "town_val":town_val,
           "street_title":street_title,
           "street_val":street_val,
+          "blk_from_title":blk_from_title,
+          "blk_to_title":blk_to_title,
+          "blk_from_val":blk_from_val,
+          "blk_to_val":blk_to_val,
           "date_range_title":date_range_title,
           "submit_btn_id":submit_btn_id}
 
@@ -53,25 +55,39 @@ headers_hdb = [
     "Resale Registration Date"
     ]
 
+# for Street
+headers_street = [
+    "Block",
+    "HDB Town",
+    "Storey",
+    "Floor Area (sqm)" , 
+    "Flat Model",
+    "Lease Commence Date",
+    "Remaining Lease",
+    "Resale Price",
+    "Resale Registration Date"
+    ]
+
 filepath = "hdb.csv"
 
 def main_hdb():
     driver = start_driver()
     run_query_success(driver, params_hdb)
     if params_hdb["street_val"]:
-        df = write_to_dataframe_street(driver, headers_hdb)
+        df = write_to_dataframe_street(driver, headers_street)
+        save_dataframe(df, filepath, headers_street)
     else:
         df = write_to_dataframe_hdb(driver, headers_hdb)
-    save_dataframe(df, filepath, headers_hdb)
-    send_email({"information":df.iloc[1:5]})
+        save_dataframe(df, filepath, headers_hdb)
+    send_email(df)
 
-def get_results(format:str ="json"):
+def get_results(params:dict, headers: list, format:str ="json"):
     driver = start_driver()
-    run_query_success(driver, params_hdb)
-    if params_hdb["street_val"]:
-        df = write_to_dataframe_street(driver, headers_hdb)
+    run_query_success(driver, params)
+    if params["street_val"]:
+        df = write_to_dataframe_street(driver, headers)
     else:
-        df = write_to_dataframe_hdb(driver, headers_hdb)
+        df = write_to_dataframe_hdb(driver, headers)
     if format.lower() == "df":
         return df
     elif format.lower() == "json":
@@ -96,6 +112,10 @@ def run_query_street(driver: webdriver.Chrome, params:dict):
     print("running street")
     street_field = driver.find_element(By.NAME , params["street_title"])
     street_field.send_keys(params["street_val"])
+    blk_from_field = driver.find_element(By.NAME , params["blk_from_title"])
+    blk_from_field.send_keys(params["blk_from_val"])
+    blk_to_field = driver.find_element(By.NAME , params["blk_to_title"])
+    blk_to_field.send_keys(params["blk_to_val"])
 
     
 # runs the base query that is similar to both hdb or street query
@@ -168,19 +188,38 @@ def write_to_dataframe_street(driver:webdriver.Chrome, headers:list)->pd.DataFra
 
 # saves file locally
 def save_dataframe(df:pd.DataFrame, filepath:str, headers:str) ->None:
-    print("saving to csv...")
-    df.to_csv(filepath, columns=headers_hdb, index=False)
+    try:
+        print("saving to csv...")
+        print(df.head())
+        df.to_csv(filepath, columns=headers, index=False)
+    except Exception as ex:
+        print("unable to save due to {}",ex)
 
 # sends an email
-def send_email(data:dict):
+def send_email(df:pd.DataFrame):
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    sender_email = 'hdbresalealertservice@gmail.com'
+    receiver_email  = 'chngyuanlong@gmail.com'
+    password = "qcbx wfzf eysm xlxk"
+    html_table = df.to_html(index=False)
+    # Attach HTML content to the email
+    message = MIMEMultipart()
+    html_body = f'<html><body>{html_table}</body></html>'
+    message.attach(MIMEText(html_body, 'html'))
+    message['From'] = sender_email
+    message['To'] = receiver_email
+    message['Subject'] = "HDB Resale Alert"
     try:
+        print(f"attempting to send email with following params -> from: {message["From"]} To: {message["To"]} Subject: {message["Subject"]}")
+        print(f"With email body : {html_body}")
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
-            server.sendmail(sender_email, receiver_email, message)
+            server.sendmail(sender_email, receiver_email, message.as_string())
         print("Email sent!")
     except Exception as ex:
-        print("Unable to send email due to {} ", Exception)
+        print(f"Unable to send email due to {ex} ")
 
 if (__name__ == "__main__") :
     main_hdb()

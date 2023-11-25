@@ -24,17 +24,21 @@
 
     <div>
         <label for="blkNumberFrom">Block Number from:</label>
-        <select id="blkNumberFrom">
+        <input type="text" id="blkNumberFrom" placeholder="Block From">
         </select>
     </div>
 
     <div>
         <label for="blkNumberTo">Block Number to:</label>
-        <select id="blkNumberTo">
+        <input type="text" id="blkNumberTo" placeholder="Block To">
         </select>
     </div>
 
     <button onclick="submitForm()">Submit</button>
+
+    <!-- Add a div for displaying results -->
+    <div id="resultContainer"></div>
+
 
     <div>
         <label for="email">Email Address:</label>

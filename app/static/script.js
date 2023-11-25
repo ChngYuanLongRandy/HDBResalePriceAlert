@@ -1,47 +1,51 @@
-// Use window.onload to run the function when the page has finished loading
-window.onload = function () {
-    // Call the function to populate the combo boxes initially
-    updateComboBoxes();
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch YAML data
+    fetch('/config/config.yaml')
+        .then(response => response.text())
+        .then(yamlContent => {
+            // Parse YAML into a JavaScript object
+            const data = jsyaml.load(yamlContent);
 
-    const configPath = "config/config.yaml"
+            console.log(data);
 
-    // Additional JavaScript code can go here
+           // Repopulate your comboboxes or perform other actions with the data
+           repopulateComboboxes(data);
+        })
+        .catch(error => console.error('Error fetching YAML:', error));
 
-    function updateComboBoxes(configPath) {
-        // Assume your YAML content is stored in a variable named 'configPath'
-        const config = jsyaml.load(configPath);
+    // Function to repopulate comboboxes
+    function repopulateComboboxes(data) {
+        // Access data and update your comboboxes
+        const flatTypeCombobox = document.getElementById('flatType');
+        const streetNameCombobox = document.getElementById('streetName');
 
-        // Use the config values to update the combo boxes
-        repopulateComboBox('flatType', config.flat_type_combobox);
-        repopulateComboBox('hdbTown', config.hdb_town_combobox);
-    }
-
-    function repopulateComboBox(comboBoxId, options) {
-        const comboBox = document.getElementById(comboBoxId);
-
-        // Clear existing options
-        comboBox.innerHTML = '';
-
-        // Populate with new options
-        options.forEach(option => {
+        // Example: Repopulate flatTypeCombobox
+        data.flat_type_combobox.forEach(option => {
             const optionElement = document.createElement('option');
-            optionElement.value = option;
             optionElement.text = option;
-            comboBox.add(optionElement);
+            flatTypeCombobox.add(optionElement);
+        });
+
+        // Example: Repopulate streetNameCombobox
+        data.street_name_combobox.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.text = option;
+            streetNameCombobox.add(optionElement);
         });
     }
-};
+});
 
 function submitForm() {
     const flatType = document.getElementById('flatType').value;
     const streetName = document.getElementById('streetName').value;
-    const resaleDate = document.getElementById('resaleDate').value;
+    const blkNumberFrom = document.getElementById('blkNumberFrom').value;
+    const blkNumberTo = document.getElementById('blkNumberTo').value;
 
     // Replace the URL with the actual endpoint for submitting the form data
     const submitEndpoint = '/submit';
 
     // Make an API call or perform any necessary action with the form data
-    console.log('Submitting form data:', { flatType, streetName, resaleDate });
+    console.log('Submitting form data:', { flatType, streetName, blkNumberFrom, blkNumberTo});
 
     // Make a POST request to the submit endpoint
     fetch(submitEndpoint, {
@@ -49,7 +53,7 @@ function submitForm() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ flatType, streetName, resaleDate }),
+        body: JSON.stringify({ flatType, streetName, blkNumberFrom, blkNumberTo }),
     })
     .then(response => {
         if (!response.ok) {
@@ -60,11 +64,62 @@ function submitForm() {
     .then(data => {
         // Handle the response data as needed
         console.log('Submission successful:', data);
+        console.log('data column ', data.columns)
+        console.log('datas data ' , data.dat)
+        // Display the results
+        displayResults(data); // Assuming your response data has a similar structure to the example in the previous message
+        
     })
     .catch(error => {
         console.error('Error during submission:', error.message);
     });
 }
+
+    // Function to handle result display
+    function displayResults(results) {
+        // Assuming you have a div with id "resultContainer" to display the results
+        const resultContainer = document.getElementById('resultContainer');
+
+        // Clear previous results
+        resultContainer.innerHTML = '';
+
+        // Create a table to display the results
+        const table = document.createElement('table');
+        table.border = '1';
+
+        // Create table header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+
+        results.columns.forEach(column => {
+            const th = document.createElement('th');
+            th.textContent = column;
+            headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Create table body
+        const tbody = document.createElement('tbody');
+
+        results.data.forEach(rowData => {
+            const tr = document.createElement('tr');
+
+            rowData.forEach(cellData => {
+                const td = document.createElement('td');
+                td.textContent = cellData;
+                tr.appendChild(td);
+            });
+
+            tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+
+        // Append the table to the result container
+        resultContainer.appendChild(table);
+    }
 
 function registerUser() {
     const email = document.getElementById('email').value;

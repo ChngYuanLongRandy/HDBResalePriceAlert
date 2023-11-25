@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
 
 app = Flask(__name__)
@@ -12,19 +12,31 @@ registered_emails = set("asd@asd.com")
 def index():
     return render_template('index.html')
 
+@app.route('/config/<path:filename>')
+def serve_config(filename):
+    return send_from_directory('config', filename)
+
 @app.route('/submit', methods=['POST'])
 def submit():
+
+    print(f"Params from hdbService {hdbService.params_hdb} before retreiving from user")
+
     try:
         data = request.get_json()
-        flat_type = data['flatType']
-        street_name = data['streetName']
-        resale_date = data['resaleDate']
+        hdbService.params_hdb['flatType_val'] = data['flatType']
+        hdbService.params_hdb['street_val'] = data['streetName']
+        hdbService.params_hdb['blk_from_val'] = data['blkNumberFrom']
+        hdbService.params_hdb['blk_to_val'] = data['blkNumberTo']
+        print(f"Params from hdbService {hdbService.params_hdb} after retreiving from user")
 
-        # Do something with the data (e.g., store it, process it)
-        # For demonstration purposes, we are just appending it to a list
-        submitted_data.append({'flatType': flat_type, 'streetName': street_name, 'resaleDate': resale_date})
+        df = hdbService.get_results(hdbService.params_hdb, hdbService.headers_street, "df")
+        print(f"Results in dataframe format : {df}")
+        json_results = {
+            'columns': df.columns.tolist(),  # Convert columns to a list
+            'data': df.values.tolist(),      # Convert data to a nested list
+        }
 
-        return jsonify({'message': 'Submission successful'}), 200
+        return jsonify({'message': 'Submission successful', 'data': json_results['data'], 'columns': json_results['columns']}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
