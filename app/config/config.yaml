@@ -16,6 +16,9 @@ params:
     date_range_title : "dteRange"
     submit_btn_id : "btnSubmit"
 
+core:
+    db_name : HDBResalePriceAlertEmail.db
+
 flat_type_combobox:
     - 1-Room
     - 2-Room

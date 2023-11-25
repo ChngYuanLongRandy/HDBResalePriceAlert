@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
+from services.dbService import create_tables, add_email, get_emails
 import yaml
+import sqlite3
+
 
 app = Flask(__name__)
+app.config['DATABASE'] = 'HDBResaleAlertPriceEmails.db'
 config_path = "app/config/config.yaml"
 
-# Sample data storage (replace this with a database in a real application)
-submitted_data = []
-registered_emails = set("asd@asd.com")
+
+create_tables()
 
 @app.route('/')
 def index():
@@ -33,11 +36,6 @@ def submit():
 
         print(f"data from user {request.get_json()}")
 
-        # hdbService.params_hdb['flatType_val'] = data['flatType']
-        # hdbService.params_hdb['street_val'] = data['streetName']
-        # hdbService.params_hdb['blk_from_val'] = data['blkNumberFrom']
-        # hdbService.params_hdb['blk_to_val'] = data['blkNumberTo']
-
         print(f"flatType : {data['flatType']}")
         print(f"streetName : {data['streetName']}")
         print(f"blkNumberFrom : {data['blkNumberFrom']}")
@@ -62,21 +60,25 @@ def submit():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# Route to add a user
 @app.route('/register', methods=['POST'])
 def register():
     try:
         data = request.get_json()
         email = data['email']
 
+        existingEmails= get_emails()
+
         # Check if the email is already registered
-        if email in registered_emails:
+        if email in existingEmails:
             return jsonify({'error': 'Email is already registered'}), 400
 
-        # Do something with the email (e.g., store it, process it)
-        # For demonstration purposes, we are just adding it to a set
-        registered_emails.add(email)
+        else:
+            # Do something with the email (e.g., store it, process it)
+            # For demonstration purposes, we are just adding it to a set
+            add_email(email)
 
-        return jsonify({'message': 'Registration successful'}), 200
+            return jsonify({'message': 'Registration successful'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
