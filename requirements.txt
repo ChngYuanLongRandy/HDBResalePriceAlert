@@ -3,4 +3,3 @@ selenium
 pandas
 pyyaml
 flask
-Flask-SQLAlchemy #DB

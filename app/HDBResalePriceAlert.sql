@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS emails;
+
+CREATE TABLE emails (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    email TEXT NOT NULL,
+    verified BOOLEAN NOT NULL,
+    flatType TEXT NOT NULL,
+    streetName TEXT NOT NULL,
+    blkFrom INTEGER NOT NULL,
+    blkTo INTEGER NOT NULL,
+    lastSent TIMESTAMP,
+    sent BOOLEAN
+);

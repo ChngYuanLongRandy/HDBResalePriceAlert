@@ -64,19 +64,26 @@ def submit():
 @app.route('/register', methods=['POST'])
 def register():
     try:
+
+        input_params = {}
+
         data = request.get_json()
-        email = data['email']
+        input_params["email"] = data['email']
+        input_params['flat_type_val'] = data['flatType']
+        input_params["street_val"] = data['streetName']
+        input_params["blk_from_val"] = data['blkNumberFrom']
+        input_params['blk_to_val'] = data['blkNumberTo']
 
         existingEmails= get_emails()
 
         # Check if the email is already registered
-        if email in existingEmails:
+        if input_params["email"] in existingEmails:
             return jsonify({'error': 'Email is already registered'}), 400
 
         else:
             # Do something with the email (e.g., store it, process it)
             # For demonstration purposes, we are just adding it to a set
-            add_email(email)
+            add_email(input_params)
 
             return jsonify({'message': 'Registration successful'}), 200
 

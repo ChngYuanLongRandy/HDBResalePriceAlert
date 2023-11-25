@@ -133,6 +133,10 @@ function submitForm() {
 
 function registerUser() {
     const email = document.getElementById('email').value;
+    const flatType = document.getElementById('flatType').value;
+    const streetName = document.getElementById('streetName').value;
+    const blkNumberFrom = document.getElementById('blkNumberFrom').value;
+    const blkNumberTo = document.getElementById('blkNumberTo').value;
 
     // Replace the URL with the actual endpoint for registering a user
     const registerEndpoint = '/register';
@@ -146,6 +150,6 @@ function registerUser() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email , flatType, streetName, blkNumberFrom, blkNumberTo}),
     })
 }

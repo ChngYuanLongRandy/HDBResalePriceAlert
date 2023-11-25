@@ -46,10 +46,11 @@ def get_results(params:dict, headers: list, format:str ="json"):
 # start the driver, returns a webdriver chrome object
 def start_driver(params:dict) -> webdriver.Chrome:
 
-    # Set up Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    # # Set up Chrome options
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')  # Run in headless mode
+    # driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome()
     driver.get(params["hdb_link"])
     assert params["hdb_title"] in driver.title
     return driver
