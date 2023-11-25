@@ -166,7 +166,7 @@ def send_email(df:pd.DataFrame):
     message['To'] = receiver_email
     message['Subject'] = "HDB Resale Alert"
     try:
-        print(f"attempting to send email with following params -> from: {message["From"]} To: {message["To"]} Subject: {message["Subject"]}")
+        print(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
         print(f"With email body : {html_body}")
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:

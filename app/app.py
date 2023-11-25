@@ -46,7 +46,7 @@ def submit():
         params["params"]['blk_from_val'] = data['blkNumberFrom']
         params["params"]['blk_to_val'] = data['blkNumberTo']
 
-        print(f"Params {params["params"]} after retreiving from user")
+        print(f"Params {params['params']} after retreiving from user")
 
         df = hdbService.get_results(params["params"], params["headers_street"], "df")
         print(f"Results in dataframe format : {df}")
