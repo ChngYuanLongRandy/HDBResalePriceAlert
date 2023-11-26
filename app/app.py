@@ -75,6 +75,7 @@ def register():
         input_params['blk_to_val'] = data['blkNumberTo']
 
         existingEmails= get_emails()
+        print(existingEmails)
 
         # Check if the email is already registered
         if input_params["email"] in existingEmails:

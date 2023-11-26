@@ -1,1 +1,0 @@
-hdb_link = "https://services2.hdb.gov.sg/webapp/BB33RTIS/BB33SComparator"

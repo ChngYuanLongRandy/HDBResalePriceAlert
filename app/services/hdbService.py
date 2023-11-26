@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
@@ -46,11 +47,12 @@ def get_results(params:dict, headers: list, format:str ="json"):
 # start the driver, returns a webdriver chrome object
 def start_driver(params:dict) -> webdriver.Chrome:
 
-    # # Set up Chrome options
-    # chrome_options = Options()
-    # chrome_options.add_argument('--headless')  # Run in headless mode
-    # driver = webdriver.Chrome(options=chrome_options)
-    driver = webdriver.Chrome()
+    # Set up Chrome options
+    chrome_options = Options()
+    service = Service('/usr/lib/chromium-browser/chromedriver')
+    chrome_options.add_argument('--headless')  # Run in headless mode
+    driver = webdriver.Chrome(options=chrome_options, service=service)
+    # driver = webdriver.Chrome()
     driver.get(params["hdb_link"])
     assert params["hdb_title"] in driver.title
     return driver
