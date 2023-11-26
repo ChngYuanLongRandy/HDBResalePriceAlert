@@ -50,7 +50,7 @@ def start_driver(params:dict) -> webdriver.Chrome:
     # chrome_options = Options()
     # chrome_options.add_argument('--headless')  # Run in headless mode
     # driver = webdriver.Chrome(options=chrome_options)
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(r'/usr/bin/chromedriver')
     driver.get(params["hdb_link"])
     assert params["hdb_title"] in driver.title
     return driver
