@@ -8,6 +8,11 @@ from email.mime.text import MIMEText
 import smtplib, ssl
 import yaml
 
+import chromedriver_autoinstaller
+
+
+chromedriver_autoinstaller.install() 
+
 config_path = "app/config/config.yaml"
 with open(config_path, 'r') as yaml_file:
     configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
@@ -50,7 +55,7 @@ def start_driver(params:dict) -> webdriver.Chrome:
     # chrome_options = Options()
     # chrome_options.add_argument('--headless')  # Run in headless mode
     # driver = webdriver.Chrome(options=chrome_options)
-    driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
+    driver = webdriver.Chrome()
     driver.get(params["hdb_link"])
     assert params["hdb_title"] in driver.title
     return driver
