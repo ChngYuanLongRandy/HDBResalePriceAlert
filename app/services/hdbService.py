@@ -8,11 +8,6 @@ from email.mime.text import MIMEText
 import smtplib, ssl
 import yaml
 
-import chromedriver_autoinstaller
-
-
-chromedriver_autoinstaller.install() 
-
 config_path = "app/config/config.yaml"
 with open(config_path, 'r') as yaml_file:
     configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
