@@ -50,9 +50,12 @@ def start_driver(params:dict) -> webdriver.Chrome:
     # chrome_options = Options()
     # chrome_options.add_argument('--headless')  # Run in headless mode
     # driver = webdriver.Chrome(options=chrome_options)
-    driver = webdriver.Chrome(r'/usr/bin/chromedriver')
-    driver.get(params["hdb_link"])
-    assert params["hdb_title"] in driver.title
+    try:
+        driver = webdriver.Chrome(r'/usr/bin/chromedriver')
+        driver.get(params["hdb_link"])
+        assert params["hdb_title"] in driver.title
+    except Exception as ex: 
+        print(f"Unable to start driver due to exception {ex}")
     return driver
 
 # runs the query in the website with HDB town 
