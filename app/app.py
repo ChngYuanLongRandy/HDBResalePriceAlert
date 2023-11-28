@@ -90,7 +90,7 @@ def register():
             # For demonstration purposes, we are just adding it to a set
             add_email(input_params)
 
-            return jsonify({'message': 'Registration successful'}), 200
+            return jsonify({'message': 'Registration successful', 'data': input_params.items()}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
