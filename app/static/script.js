@@ -66,7 +66,7 @@ function submitForm() {
         // Handle the response data as needed
         console.log('Submission successful:', data);
         console.log('data column ', data.columns)
-        console.log('datas data ' , data.dat)
+        console.log('datas data ' , data.data)
         // Display the results
         displayResults(data); // Assuming your response data has a similar structure to the example in the previous message
         
@@ -161,11 +161,6 @@ function registerUser() {
     .then(data => {
         // Handle the response data as needed
         console.log('Submission successful:', data);
-        console.log('data column ', data.columns)
-        console.log('datas data ' , data.dat)
-        // Display the results
-        displayResults(data); // Assuming your response data has a similar structure to the example in the previous message
-        
     })
     .catch(error => {
         console.error('Error during submission:', error.message);

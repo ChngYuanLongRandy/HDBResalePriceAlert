@@ -83,14 +83,16 @@ def register():
 
         # Check if the email is already registered
         if input_params["email"] in emails:
+            print("email exists, sending 400 response")
             return jsonify({'error': 'Email is already registered'}), 400
 
         else:
             # Do something with the email (e.g., store it, process it)
             # For demonstration purposes, we are just adding it to a set
+            print("email does not exists, attempting to add ")
             add_email(input_params)
-
-            return jsonify({'message': 'Registration successful', 'data': input_params.items()}), 200
+            print("email done adding, sending 200 response")
+            return jsonify({'message': 'Registration successful', 'data': input_params}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
