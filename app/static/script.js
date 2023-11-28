@@ -153,14 +153,14 @@ function registerUser() {
         body: JSON.stringify({ email , flatType, streetName, blkNumberFrom, blkNumberTo}),
     })
     .then(response => {
-        if (!response.ok) {
+        if (!response.status.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-        return response.text();
+        return response.json();
     })
     .then(data => {
         // Handle the response data as needed
-        console.log('Submission successful, registered email address :', data);
+        console.log('Submission successful, registered email address :', data['data']);
     })
     .catch(error => {
         console.error('Error during submission:', error.message);
