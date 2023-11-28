@@ -45,7 +45,9 @@ def get_emails():
     cursor.execute("SELECT * FROM emails")
     rows = cursor.fetchall()
 
-    emails = [{'id': row[0], 'email': row[1]} for row in rows]
+    emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
+               'flatType': row[4],'streetname': row[5],'blkFrom': row[6],'blkTo': row[7],
+               'lastSent': row[8],'sent': row[9]} for row in rows]
 
     connection.commit()
     connection.close()

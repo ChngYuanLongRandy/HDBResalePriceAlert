@@ -74,11 +74,15 @@ def register():
         input_params["blk_from_val"] = data['blkNumberFrom']
         input_params['blk_to_val'] = data['blkNumberTo']
 
-        existingEmails= get_emails()
-        print(existingEmails)
+        db= get_emails()
+        print("Printing all emails in db")
+        emails = []
+        for entry in db:
+            print(entry["email"])
+            emails.append(entry["email"])
 
         # Check if the email is already registered
-        if input_params["email"] in existingEmails:
+        if input_params["email"] in emails:
             return jsonify({'error': 'Email is already registered'}), 400
 
         else:

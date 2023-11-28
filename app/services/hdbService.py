@@ -47,19 +47,6 @@ def get_results(params:dict, headers: list, format:str ="json"):
 # start the driver, returns a webdriver chrome object
 def start_driver(params:dict) -> webdriver.Chrome:
 
-<<<<<<< HEAD
-    # # Set up Chrome options
-    # chrome_options = Options()
-    # chrome_options.add_argument('--headless')  # Run in headless mode
-    # driver = webdriver.Chrome(options=chrome_options)
-    try:
-        service = webdriver.ChromeService(executable_path=r'/home/hashketh/chromedriver-armv7/chromedriver')
-        driver = webdriver.Chrome(service=service)
-        driver.get(params["hdb_link"])
-        assert params["hdb_title"] in driver.title
-    except Exception as ex: 
-        print(f"Unable to start driver due to exception {ex}")
-=======
     # Set up Chrome options
     chrome_options = Options()
     service = Service('/usr/lib/chromium-browser/chromedriver')
@@ -68,7 +55,6 @@ def start_driver(params:dict) -> webdriver.Chrome:
     # driver = webdriver.Chrome()
     driver.get(params["hdb_link"])
     assert params["hdb_title"] in driver.title
->>>>>>> 05a81a17ad1aec58f154c1aec87404a32d232434
     return driver
 
 # runs the query in the website with HDB town 
