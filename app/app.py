@@ -92,7 +92,7 @@ def register():
             print("email does not exists, attempting to add ")
             add_email(input_params)
             print("email done adding, sending 200 response")
-            return jsonify({'message': 'Registration successful', 'data': input_params}), 200
+            return jsonify({'message': 'Registration successful', 'data': input_params['email']}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

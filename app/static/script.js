@@ -142,7 +142,7 @@ function registerUser() {
     const registerEndpoint = '/register';
 
     // Make an API call or perform any necessary action with the user's email
-    console.log('Registering user with email:', email);
+    console.log('Registering user with email:', email, 'flatType:', flatType, 'streetName:', streetName);
 
     // Make a POST request to the register endpoint
     fetch(registerEndpoint, {
@@ -156,11 +156,14 @@ function registerUser() {
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
+        else {
+            console.log("Response 200 received!")
+        }
         return response.json();
     })
     .then(data => {
         // Handle the response data as needed
-        console.log('Submission successful:', data);
+        console.log('Submission successful, registered email address :', data);
     })
     .catch(error => {
         console.error('Error during submission:', error.message);
