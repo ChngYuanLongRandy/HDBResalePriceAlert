@@ -156,7 +156,7 @@ function registerUser() {
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-        return response.json();
+        return response.text();
     })
     .then(data => {
         // Handle the response data as needed
