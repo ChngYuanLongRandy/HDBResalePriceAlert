@@ -52,7 +52,7 @@ def submit():
         print(f"Results in dataframe format : {df}")
         json_results = {
             'columns': df.columns.tolist(),  # Convert columns to a list
-            'data': df.values(),      # Convert data to a nested list
+            'data': df.values.tolist(),      # Convert data to a nested list
         }
 
         return jsonify({'message': 'Submission successful', 'data': json_results['data'], 'columns': json_results['columns']}), 200
