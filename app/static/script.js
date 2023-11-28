@@ -153,6 +153,7 @@ function registerUser() {
         body: JSON.stringify({ email , flatType, streetName, blkNumberFrom, blkNumberTo}),
     })
     .then(response => {
+        console.log('Full response object:', response);
         if (!response.status.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
