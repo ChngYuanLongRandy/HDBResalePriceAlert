@@ -45,6 +45,7 @@ async function submitForm() {
 
         // Handle the response data as needed
         console.log('Submission successful:', data);
+        console.log('Data type:', typeof(data));
         console.log('Data column:', data.columns);
         console.log('Data rows:', data.data);
 
