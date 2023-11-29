@@ -103,10 +103,11 @@ def register():
         add_email(input_params)
 
         json_results = {
-            'email': email
+            'email': email,
+            'flat_type' : data['flatType']
         }
 
-        return jsonify({'message': 'Registration successful', 'data': json_results['email']}), 200
+        return jsonify({'message': 'Registration successful', 'data': json_results['flatType']}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
