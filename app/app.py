@@ -138,9 +138,13 @@ def testSendEmail():
             print(f"params flat type val : {params['params']['flat_type_val']}")
 
             params['params']['flat_type_val'] = email_params['flatType']
+            print('passed 1')
             params['params']['street_val'] = email_params['streetName']
+            print('passed 2')
             params['params']['blk_from_val'] = email_params['blkNumberFrom']
+            print('passed 3')
             params['params']['blk_to_val'] = email_params['blkNumberTo']
+            print('passed 4')
             print(f"params : {params['params']}")
             df = hdbService.get_results(params['params'], params['headers_street'], 'df')
             print(f"Results in dataframe format : {df}")
