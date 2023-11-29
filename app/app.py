@@ -128,13 +128,16 @@ def testSendEmail():
 
         # # Sorts them into identical lists
         # for email in emails:
-    
+        print(f"Contents of emails : {emails}")
+
         for email in emails:
+            print(f"Email : {email}")
             email_params = get_email(email)[0] # should only be one result since I'm doing a test
             params["params"]['flat_type_val'] = email_params['flatType']
             params["params"]['street_val'] = email_params['streetName']
             params["params"]['blk_from_val'] = email_params['blkNumberFrom']
             params["params"]['blk_to_val'] = email_params['blkNumberTo']
+            print(f"params : {params['params']}")
             df = hdbService.get_results(params["params"], params["headers_street"], "df")
             print(f"update datetime of email {email}")
             update_email_with_senddatetime(email, datetimeSent)

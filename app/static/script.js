@@ -174,12 +174,30 @@ async function registerUser() {
 
 }
 
+
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    return formattedTimestamp;
+}
+
+
 async function testSendEmail() {
     console.log('testSendEmail() function called');
 
     // Replace the URL with the actual endpoint for registering a user
     const sendEmailEndpoint = '/testSendEmail';
     const currentTimestamp = new Date().getTime();
+    const formattedTimestamp = formatTimestamp(currentTimestamp);
 
     try {
         // Make a POST request to the register endpoint
@@ -188,7 +206,7 @@ async function testSendEmail() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ currentTimestamp }),
+            body: JSON.stringify({ formattedTimestamp }),
         });
 
         console.log('Full response object:', response);
