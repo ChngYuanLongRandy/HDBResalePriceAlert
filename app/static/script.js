@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function submitForm() {
+async function submitForm() {
 
     const flatType = document.getElementById('flatType').value;
     const streetName = document.getElementById('streetName').value;
@@ -49,7 +49,7 @@ function submitForm() {
     console.log('Submitting form data:', { flatType, streetName, blkNumberFrom, blkNumberTo});
 
     // Make a POST request to the submit endpoint
-    fetch(submitEndpoint, {
+    await fetch(submitEndpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ function submitForm() {
         }
     }
 
-function registerUser() {
+async function registerUser() {
     const email = document.getElementById('email').value;
     const flatType = document.getElementById('flatType').value;
     const streetName = document.getElementById('streetName').value;
@@ -145,7 +145,7 @@ function registerUser() {
     console.log('Registering user with email:', email, 'flatType:', flatType, 'streetName:', streetName);
 
     // Make a POST request to the register endpoint
-    fetch(registerEndpoint, {
+    await fetch(registerEndpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -166,4 +166,28 @@ function registerUser() {
     .catch(error => {
         console.error('Error during submission:', error.message);
     });
+
+    //     // Make a POST request to the register endpoint
+    // const response =fetch(registerEndpoint, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ email , flatType, streetName, blkNumberFrom, blkNumberTo}),
+    //     })
+    //     .then(response => {
+    //         console.log('Full response object:', response);
+    //         if (!response.status.ok) {
+    //             throw new Error(`Error ${response.status}: ${response.statusText}`);
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         // Handle the response data as needed
+    //         console.log('Submission successful, registered email address :', data['data']);
+    //     })
+    //     .catch(error => {
+    //         console.error('Error during submission:', error.message);
+    //     });
+    // }
 }
