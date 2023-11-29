@@ -55,6 +55,7 @@ def get_emails():
     return emails
 
 def get_email(email:str):
+    print("Entering get email method")
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
