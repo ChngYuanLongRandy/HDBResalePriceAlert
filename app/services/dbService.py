@@ -60,7 +60,7 @@ def get_email(email:str):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM emails where email == '(?)'", (email,))
+    cursor.execute("SELECT * FROM emails where email = (?)", (email,))
     rows = cursor.fetchall()
 
     print(f'Rows in get email : {rows}')
