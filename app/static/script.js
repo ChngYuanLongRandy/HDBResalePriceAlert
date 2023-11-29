@@ -156,9 +156,7 @@ async function registerUser() {
             body: JSON.stringify({ email, flatType, streetName, blkNumberFrom, blkNumberTo }),
         });
 
-        console.log('Full response object:', response);
-        console.log('Raw Response Content:', await response.text());
-        
+        console.log('Full response object:', response);        
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -196,7 +194,6 @@ async function testSendEmail() {
         });
 
         console.log('Full response object:', response);
-        console.log('Raw Response Content:', await response.text());
         
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);

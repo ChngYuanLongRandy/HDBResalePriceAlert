@@ -131,6 +131,7 @@ def testSendEmail():
                 params["params"]['blk_from_val'] = email_params['blkNumberFrom']
                 params["params"]['blk_to_val'] = email_params['blkNumberTo']
                 df = hdbService.get_results(params["params"], params["headers_street"], "df")
+                print(f"Print df before sending to {email['email']} : \n {df}")
                 send_email(df,email)
             
             json_results = {
