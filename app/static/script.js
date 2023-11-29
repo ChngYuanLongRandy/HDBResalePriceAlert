@@ -154,15 +154,17 @@ async function registerUser() {
     })
     .then(response => {
         console.log('Full response object:', response);
-        console.log('Response.json():', response.json());
-        console.log('Response.text():', response.text());
-        console.log('Response status:', response.status);
+        // console.log('Response.json():', response.json());
+        // console.log('Response.text():', response.text());
+        // console.log('Response status:', response.status);
         if (!response.status.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         return response.json();
     })
     .then(data => {
+        jsonData = JSON.parse(data)
+        console.log('jsonData:', jsonData);
         // Handle the response data as needed
         console.log('Submission successful, registered email address :', data['data']);
     })
