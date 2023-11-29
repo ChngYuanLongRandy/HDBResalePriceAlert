@@ -111,7 +111,7 @@ def testSendEmail():
         print(params["params"])
 
         data = request.get_json()
-        datetimeSent = data['currentTimestamp']
+        datetimeSent = data['formattedTimestamp']
         print(f"datetimeSent is {datetimeSent}")
 
 
@@ -139,9 +139,10 @@ def testSendEmail():
             params["params"]['blk_to_val'] = email_params['blkNumberTo']
             print(f"params : {params['params']}")
             df = hdbService.get_results(params["params"], params["headers_street"], "df")
+            print(f"Results in dataframe format : {df}")
             print(f"update datetime of email {email}")
             update_email_with_senddatetime(email, datetimeSent)
-            print(f"Print df before sending to {email['email']} : \n {df}")
+            print(f"Before sending email to {email}")
             send_email(df,email)
 
         
