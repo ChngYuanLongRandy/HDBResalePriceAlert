@@ -57,6 +57,7 @@ async function submitForm() {
         body: JSON.stringify({ flatType, streetName, blkNumberFrom, blkNumberTo }),
     })
     .then(response => {
+        console.log('Full response object:', response);
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
