@@ -61,6 +61,8 @@ def get_email(email:str):
     cursor.execute("SELECT * FROM emails where email == '%s'", (email,))
     rows = cursor.fetchall()
 
+    print(f'Rows in get email : {rows}')
+
     emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
                'flatType': row[4],'streetname': row[5],'blkFrom': row[6],'blkTo': row[7],
                'lastSent': row[8],'sent': row[9]} for row in rows]
