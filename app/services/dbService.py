@@ -58,7 +58,7 @@ def get_email(email:str):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM emails where email == '(%s,)'", (email,))
+    cursor.execute("SELECT * FROM emails where email == '%s'", (email,))
     rows = cursor.fetchall()
 
     emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
