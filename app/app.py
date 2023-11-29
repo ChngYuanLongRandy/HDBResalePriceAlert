@@ -139,11 +139,11 @@ def testSendEmail():
 
             params['params']['flat_type_val'] = email_params['flatType']
             print('passed 1')
-            params['params']['street_val'] = email_params['streetName']
+            params['params']['street_val'] = email_params['streetname']
             print('passed 2')
-            params['params']['blk_from_val'] = email_params['blkNumberFrom']
+            params['params']['blk_from_val'] = email_params['blkFrom']
             print('passed 3')
-            params['params']['blk_to_val'] = email_params['blkNumberTo']
+            params['params']['blk_to_val'] = email_params['blkTo']
             print('passed 4')
             print(f"params : {params['params']}")
             df = hdbService.get_results(params['params'], params['headers_street'], 'df')
