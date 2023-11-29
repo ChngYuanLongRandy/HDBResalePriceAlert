@@ -223,7 +223,7 @@ async function testSendEmail() {
         // Handle the response data as needed
         console.log('Submission successful, send Email request at:', data.currentTimestamp);
     } catch (error) {
-        console.error('Error during submission:', error.message);
+        console.error('Error during submission:', error.error);
     }
 
 }
