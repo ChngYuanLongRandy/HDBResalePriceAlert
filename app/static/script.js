@@ -24,6 +24,27 @@ document.addEventListener('DOMContentLoaded', async function () {
     
 });
 
+// Function to repopulate comboboxes
+function repopulateComboboxes(data) {
+    // Access data and update your comboboxes
+    const flatTypeCombobox = document.getElementById('flatType');
+    const streetNameCombobox = document.getElementById('streetName');
+
+    // Example: Repopulate flatTypeCombobox
+    data.flat_type_combobox.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.text = option;
+        flatTypeCombobox.add(optionElement);
+    });
+
+    // Example: Repopulate streetNameCombobox
+    data.street_name_combobox.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.text = option;
+        streetNameCombobox.add(optionElement);
+    });
+}
+
 async function submitForm() {
     const flatType = document.getElementById('flatType').value;
     const streetName = document.getElementById('streetName').value;
