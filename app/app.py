@@ -64,6 +64,7 @@ def submit():
 @app.route('/register', methods=['POST'])
 def register():
     try:
+        print("Entering register method")
 
         input_params = {}
 
@@ -94,7 +95,10 @@ def register():
         #     print("email done adding, sending 200 response")
         #     return jsonify({'message': 'Registration successful', 'data': input_params['email']}), 200
 
+        print(f"data : {data}" )
+
         email = data['email'].replace('@','__at__')
+        print(email)
 
         add_email(input_params)
         return jsonify({'message': 'Registration successful', 'data': email}), 200

@@ -45,7 +45,7 @@ async function submitForm() {
 
         // Handle the response data as needed
         console.log('Submission successful:', data);
-        console.log('Data type:', typeof(data));
+        console.log('Data type:', typeof data);
         console.log('Data column:', data.columns);
         console.log('Data rows:', data.data);
 
@@ -128,7 +128,8 @@ async function registerUser() {
         });
 
         console.log('Full response object:', response);
-
+        console.log('Raw Response Content:', await response.text());
+        
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -139,7 +140,7 @@ async function registerUser() {
 
         console.log('Data:', data);
         console.log('Json Parsed Data:', JSON.parse(data));
-        console.log('Data type:', typeof(data));
+        console.log('Data type:', typeof data);
         // Handle the response data as needed
         console.log('Submission successful, registered email address:', data.data);
     } catch (error) {
