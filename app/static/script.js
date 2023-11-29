@@ -117,42 +117,33 @@ async function registerUser() {
     // Replace the URL with the actual endpoint for registering a user
     const registerEndpoint = '/register';
 
-    // try {
-    //     // Make a POST request to the register endpoint
-    //     const response = await fetch(registerEndpoint, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ email, flatType, streetName, blkNumberFrom, blkNumberTo }),
-    //     });
+    try {
+        // Make a POST request to the register endpoint
+        const response = await fetch(registerEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, flatType, streetName, blkNumberFrom, blkNumberTo }),
+        });
 
-    //     console.log('Full response object:', response);
-    //     console.log('Raw Response Content:', await response.text());
+        console.log('Full response object:', response);
+        console.log('Raw Response Content:', await response.text());
         
-    //     if (!response.ok) {
-    //         throw new Error(`Error ${response.status}: ${response.statusText}`);
-    //     }
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
 
-    //     console.log('Before going to take response:');
+        console.log('Before going to take response:');
 
-    //     const data = await response.json();
+        const data = await response.json();
 
-    //     console.log('Data:', data);
-    //     console.log('Json Parsed Data:', JSON.parse(data));
-    //     console.log('Data type:', typeof data);
-    //     // Handle the response data as needed
-    //     console.log('Submission successful, registered email address:', data.data);
-    // } catch (error) {
-    //     console.error('Error during submission:', error.message);
-    // }
-
-    // Make a POST request to the register endpoint
-    fetch(registerEndpoint, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email , flatType, streetName, blkNumberFrom, blkNumberTo}),
-    })
+        console.log('Data:', data);
+        console.log('Json Parsed Data:', JSON.parse(data));
+        console.log('Data type:', typeof data);
+        // Handle the response data as needed
+        console.log('Submission successful, registered email address:', data.data);
+    } catch (error) {
+        console.error('Error during submission:', error.message);
+    }
 }
