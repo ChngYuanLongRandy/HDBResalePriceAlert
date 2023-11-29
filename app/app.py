@@ -132,6 +132,7 @@ def testSendEmail():
 
         for email in emails:
             print(f"Email : {email}")
+            print(f'Email params : {get_email(email)}')
             email_params = get_email(email)[0] # should only be one result since I'm doing a test
             params["params"]['flat_type_val'] = email_params['flatType']
             params["params"]['street_val'] = email_params['streetName']
