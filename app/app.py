@@ -134,12 +134,15 @@ def testSendEmail():
             print(f"Email : {email}")
             email_params = get_email(email)[0] # should only be one result since I'm doing a test
             print(f'Email params : {email_params}')
-            params["params"]['flat_type_val'] = email_params['flatType']
-            params["params"]['street_val'] = email_params['streetName']
-            params["params"]['blk_from_val'] = email_params['blkNumberFrom']
-            params["params"]['blk_to_val'] = email_params['blkNumberTo']
+            print(f"email_params['flatType'] : {email_params['flatType']}")
+            print(f"params flat type val : {params['params']['flat_type_val']}")
+
+            params['params']['flat_type_val'] = email_params['flatType']
+            params['params']['street_val'] = email_params['streetName']
+            params['params']['blk_from_val'] = email_params['blkNumberFrom']
+            params['params']['blk_to_val'] = email_params['blkNumberTo']
             print(f"params : {params['params']}")
-            df = hdbService.get_results(params["params"], params["headers_street"], "df")
+            df = hdbService.get_results(params['params'], params['headers_street'], 'df')
             print(f"Results in dataframe format : {df}")
             print(f"update datetime of email {email}")
             update_email_with_senddatetime(email, datetimeSent)
@@ -153,7 +156,7 @@ def testSendEmail():
 
         return jsonify({'message': 'Emails sent', 'data': json_results['emails']}), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'message': str(e)}), 500
 
 if __name__ == '__main__':
     # app.run(debug=True)
