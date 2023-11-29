@@ -100,7 +100,7 @@ def register():
 
 # Takes all of the email that has been verified and sends them according to what they have specified
 @app.route('/testSendEmail', methods=['POST'])
-def sendEmail():
+def testSendEmail():
         try:
             print("Entering send email method")
 
