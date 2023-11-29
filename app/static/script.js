@@ -167,7 +167,7 @@ async function registerUser() {
 
         console.log('Data:', data);
         // Handle the response data as needed
-        console.log('Submission successful, registered email address:', data.data);
+        console.log('Submission successful:', data);
     } catch (error) {
         console.error('Error during submission:', error.message);
     }
