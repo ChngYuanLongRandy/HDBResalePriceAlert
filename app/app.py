@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
-from services.dbService import create_tables, add_email, get_emails
+from services.emailService import send_email
+from services.dbService import create_tables, add_email, get_emails, get_email
 import yaml
-import sqlite3
 
 
 app = Flask(__name__)
@@ -97,6 +97,50 @@ def register():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# Takes all of the email that has been verified and sends them according to what they have specified
+@app.route('/testSendEmail', methods=['POST'])
+def sendEmail():
+        try:
+
+            print("Entering send email method")
+
+            with open(config_path, 'r') as yaml_file:
+                configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
+
+            params = configData
+            print(params["params"])
+
+            # Gathers a list of verified emails
+            db= get_emails()
+            print("Printing all verified emails in db")
+            emails = []
+            for entry in db:
+                if entry["verified"] == True:
+                    print(entry["email"])
+                    emails.append(entry["email"])
+
+            # sorted_emails = {}
+
+            # # Sorts them into identical lists
+            # for email in emails:
+        
+            for email in emails:
+                email_params = get_email(email)[0] # should only be one result since I'm doing a test
+                params["params"]['flat_type_val'] = email_params['flatType']
+                params["params"]['street_val'] = email_params['streetName']
+                params["params"]['blk_from_val'] = email_params['blkNumberFrom']
+                params["params"]['blk_to_val'] = email_params['blkNumberTo']
+                df = hdbService.get_results(params["params"], params["headers_street"], "df")
+                send_email(df,email)
+            
+            json_results = {
+            'emails': emails
+            }   
+
+            return jsonify({'message': 'Emails sent', 'data': json_results['emails']}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     # app.run(debug=True)
