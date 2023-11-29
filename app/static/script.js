@@ -150,38 +150,40 @@ async function registerUser() {
 }
 
 async function testSendEmail() {
-        // Replace the URL with the actual endpoint for registering a user
-        const sendEmailEndpoint = '/testSendEmail';
-        const currentTimestamp = new Date().getTime();
+    console.log('testSendEmail() function called');
 
-        try {
-            // Make a POST request to the register endpoint
-            const response = await fetch(sendEmailEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ currentTimestamp }),
-            });
-    
-            console.log('Full response object:', response);
-            console.log('Raw Response Content:', await response.text());
-            
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
-    
-            console.log('Before going to take response:');
-    
-            const data = await response.json();
-    
-            console.log('Data:', data);
-            console.log('Json Parsed Data:', JSON.parse(data));
-            console.log('Data type:', typeof data);
-            // Handle the response data as needed
-            console.log('Submission successful, send Email request at:', data.currentTimestamp);
-        } catch (error) {
-            console.error('Error during submission:', error.message);
+    // Replace the URL with the actual endpoint for registering a user
+    const sendEmailEndpoint = '/testSendEmail';
+    const currentTimestamp = new Date().getTime();
+
+    try {
+        // Make a POST request to the register endpoint
+        const response = await fetch(sendEmailEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ currentTimestamp }),
+        });
+
+        console.log('Full response object:', response);
+        console.log('Raw Response Content:', await response.text());
+        
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
+
+        console.log('Before going to take response:');
+
+        const data = await response.json();
+
+        console.log('Data:', data);
+        console.log('Json Parsed Data:', JSON.parse(data));
+        console.log('Data type:', typeof data);
+        // Handle the response data as needed
+        console.log('Submission successful, send Email request at:', data.currentTimestamp);
+    } catch (error) {
+        console.error('Error during submission:', error.message);
+    }
 
 }
