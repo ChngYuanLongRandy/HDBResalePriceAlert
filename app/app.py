@@ -107,7 +107,8 @@ def register():
             'flat_type' : data['flatType']
         }
 
-        return jsonify({'message': 'Registration successful', 'data': json_results['flatType']}), 200
+# , 'data': json_results['flatType']
+        return jsonify({'message': 'Registration successful'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
