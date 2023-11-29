@@ -102,7 +102,6 @@ def register():
 @app.route('/testSendEmail', methods=['POST'])
 def sendEmail():
         try:
-
             print("Entering send email method")
 
             with open(config_path, 'r') as yaml_file:

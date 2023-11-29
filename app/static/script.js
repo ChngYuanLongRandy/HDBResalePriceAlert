@@ -148,7 +148,8 @@ async function registerUser() {
     }
 
 }
-    async function testSendEmail() {
+
+async function testSendEmail() {
         // Replace the URL with the actual endpoint for registering a user
         const sendEmailEndpoint = '/testSendEmail';
         const currentTimestamp = new Date().getTime();
