@@ -69,3 +69,12 @@ def get_email(email:str):
     connection.close()
 
     return emails
+
+def update_email_with_senddatetime(email:str, datetime:str):
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    cursor.execute("UPDATE emails SET lastSent = '%s'  where email == '%s'", (datetime,email,))
+
+    connection.commit()
+    connection.close()

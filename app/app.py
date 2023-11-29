@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
 from services.emailService import send_email
-from services.dbService import create_tables, add_email, get_emails, get_email
+from services.dbService import create_tables, add_email, get_emails, get_email, update_email_with_senddatetime
 import yaml
 
 
@@ -101,46 +101,54 @@ def register():
 # Takes all of the email that has been verified and sends them according to what they have specified
 @app.route('/testSendEmail', methods=['POST'])
 def testSendEmail():
-        try:
-            print("Entering send email method")
+    try:
+        print("Entering send email method")
 
-            with open(config_path, 'r') as yaml_file:
-                configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        with open(config_path, 'r') as yaml_file:
+            configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
-            params = configData
-            print(params["params"])
+        params = configData
+        print(params["params"])
 
-            # Gathers a list of verified emails
-            db= get_emails()
-            print("Printing all verified emails in db")
-            emails = []
-            for entry in db:
-                if entry["verified"] == True:
-                    print(entry["email"])
-                    emails.append(entry["email"])
+        data = request.get_json()
+        datetimeSent = data['currentTimestamp']
+        print(f"datetimeSent is {datetimeSent}")
 
-            # sorted_emails = {}
 
-            # # Sorts them into identical lists
-            # for email in emails:
+        # Gathers a list of verified emails
+        db= get_emails()
+        print("Printing all verified emails in db")
+        emails = []
+        for entry in db:
+            if entry["verified"] == True:
+                print(entry["email"])
+                emails.append(entry["email"])
+
+        # sorted_emails = {}
+
+        # # Sorts them into identical lists
+        # for email in emails:
+    
+        for email in emails:
+            email_params = get_email(email)[0] # should only be one result since I'm doing a test
+            params["params"]['flat_type_val'] = email_params['flatType']
+            params["params"]['street_val'] = email_params['streetName']
+            params["params"]['blk_from_val'] = email_params['blkNumberFrom']
+            params["params"]['blk_to_val'] = email_params['blkNumberTo']
+            df = hdbService.get_results(params["params"], params["headers_street"], "df")
+            print(f"update datetime of email {email}")
+            update_email_with_senddatetime(email, datetimeSent)
+            print(f"Print df before sending to {email['email']} : \n {df}")
+            send_email(df,email)
+
         
-            for email in emails:
-                email_params = get_email(email)[0] # should only be one result since I'm doing a test
-                params["params"]['flat_type_val'] = email_params['flatType']
-                params["params"]['street_val'] = email_params['streetName']
-                params["params"]['blk_from_val'] = email_params['blkNumberFrom']
-                params["params"]['blk_to_val'] = email_params['blkNumberTo']
-                df = hdbService.get_results(params["params"], params["headers_street"], "df")
-                print(f"Print df before sending to {email['email']} : \n {df}")
-                send_email(df,email)
-            
-            json_results = {
-            'emails': emails
-            }   
+        json_results = {
+        'emails': emails
+        }   
 
-            return jsonify({'message': 'Emails sent', 'data': json_results['emails']}), 200
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
+        return jsonify({'message': 'Emails sent', 'data': json_results['emails']}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     # app.run(debug=True)
