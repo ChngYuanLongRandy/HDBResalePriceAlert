@@ -11,14 +11,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Repopulate your comboboxes or perform other actions with the data
         repopulateComboboxes(data);
+
+        // Attach event listener to the "Test send emails" button
+
+        const testSendEmailButton = document.getElementById('testSendEmailButton');
+        if (testSendEmailButton) {
+            testSendEmailButton.addEventListener('click', testSendEmail);
+        }
     } catch (error) {
         console.error('Error fetching YAML:', error);
     }
-    // Attach event listener to the "Test send emails" button
-    const testSendEmailButton = document.getElementById('testSendEmailButton');
-    if (testSendEmailButton) {
-        testSendEmailButton.addEventListener('click', testSendEmail);
-    }
+    
 });
 
 async function submitForm() {
