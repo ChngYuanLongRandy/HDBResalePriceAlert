@@ -132,8 +132,13 @@ async function registerUser() {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
+        console.log('Before going to take response:');
+
         const data = await response.json();
 
+        console.log('Data:', data);
+        console.log('Json Parsed Data:', JSON.parse(data));
+        console.log('Data type:', typeof(data));
         // Handle the response data as needed
         console.log('Submission successful, registered email address:', data.data);
     } catch (error) {
