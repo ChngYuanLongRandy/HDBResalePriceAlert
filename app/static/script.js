@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     } catch (error) {
         console.error('Error fetching YAML:', error);
     }
+    // Attach event listener to the "Test send emails" button
+    const testSendEmailButton = document.getElementById('testSendEmailButton');
+    if (testSendEmailButton) {
+        testSendEmailButton.addEventListener('click', testSendEmail);
+    }
 });
 
 async function submitForm() {
