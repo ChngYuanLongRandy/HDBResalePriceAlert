@@ -164,6 +164,7 @@ async function registerUser() {
         return response.json();
     })
     .then(data => {
+        console.log('Data object:', data);
         jsonData = JSON.parse(data)
         console.log('jsonData:', jsonData);
         // Handle the response data as needed
