@@ -166,8 +166,6 @@ async function registerUser() {
         const data = await response.json();
 
         console.log('Data:', data);
-        console.log('Json Parsed Data:', JSON.parse(data));
-        console.log('Data type:', typeof data);
         // Handle the response data as needed
         console.log('Submission successful, registered email address:', data.data);
     } catch (error) {
@@ -204,8 +202,6 @@ async function testSendEmail() {
         const data = await response.json();
 
         console.log('Data:', data);
-        console.log('Json Parsed Data:', JSON.parse(data));
-        console.log('Data type:', typeof data);
         // Handle the response data as needed
         console.log('Submission successful, send Email request at:', data.currentTimestamp);
     } catch (error) {
