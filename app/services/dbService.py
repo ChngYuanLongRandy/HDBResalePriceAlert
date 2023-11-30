@@ -131,3 +131,16 @@ def update_email_with_token(params: dict , token:str):
 
     connection.commit()
     connection.close()
+
+#   updates the row with verified 
+def update_email_verified_true(email:str):
+
+    print("Entering update email verified true method")
+    print(f"Email is {email}")
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    cursor.execute("UPDATE emails set verified == true where email = (?)", (email,))
+
+    connection.commit()
+    connection.close()

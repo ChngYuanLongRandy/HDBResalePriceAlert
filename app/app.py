@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
 from services.emailService import send_email_template
-from services.dbService import create_tables, add_email, get_emails, get_email, update_email_with_senddatetime, update_email_with_token
+from services.dbService import *
 from datetime import datetime
 import yaml
 import secrets
@@ -169,16 +169,15 @@ def testSendEmail():
 # confirms the token from the user and sets user's verified to true
 @app.route('/confirm/<token>')
 def confirm(token):
-    email = get_email_by_token(token)
+    try:
+        email = get_email_by_token(token)
 
-    if user_email:
-        # Remove the token from the dictionary after confirmation
-        del user_tokens[user_email]
-        flash('Email confirmed successfully!', 'success')
-    else:
-        flash('Invalid confirmation link. Please try again.', 'error')
-
-    return redirect(url_for('index'))
+        print(f'Email found : {email}, setting verified == true')
+        update_email_verified_true(email)
+        return jsonify({'message': 'Email verified!', 'data': email}), 200
+    except Exception as ex:
+        print(f"Something wrong must have happened as the email was not found")
+        return jsonify({'message': str(ex)}), 500
 
 
 if __name__ == '__main__':
