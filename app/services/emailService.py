@@ -61,4 +61,4 @@ def send_email_template(email:str, content:str, with_df:bool == None, df:pd.Data
 
 def send_confirmation_email(email:str, confirmation_link:str):
     content = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {confirmation_link}'
-    send_email_template(email,confirmation_link)
+    send_email_template(email,content)

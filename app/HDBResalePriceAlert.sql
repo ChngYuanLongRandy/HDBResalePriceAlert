@@ -10,5 +10,5 @@ CREATE TABLE emails (
     blkFrom INTEGER NOT NULL,
     blkTo INTEGER NOT NULL,
     lastSent TIMESTAMP,
-    sent BOOLEAN
+    token TEXT
 );

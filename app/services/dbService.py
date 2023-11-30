@@ -33,8 +33,8 @@ def create_tables():
 def add_email(params:dict):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
-    cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, sent) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-                   (params["email"],' false', params["flat_type_val"], params["street_val"], params["blk_from_val"], params["blk_to_val"], 'null', 'false'))
+    cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+                   (params["email"],' false', params["flat_type_val"], params["street_val"], params["blk_from_val"], params["blk_to_val"], 'null', 'null'))
     connection.commit()
     connection.close()
 
@@ -47,7 +47,7 @@ def get_emails():
 
     emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
                'flatType': row[4],'streetname': row[5],'blkFrom': row[6],'blkTo': row[7],
-               'lastSent': row[8],'sent': row[9]} for row in rows]
+               'lastSent': row[8],'token': row[9]} for row in rows]
 
     connection.commit()
     connection.close()
@@ -67,7 +67,7 @@ def get_email(email:str):
 
     emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
                'flatType': row[4],'streetname': row[5],'blkFrom': row[6],'blkTo': row[7],
-               'lastSent': row[8],'sent': row[9]} for row in rows]
+               'lastSent': row[8],'token': row[9]} for row in rows]
 
     connection.commit()
     connection.close()
@@ -98,10 +98,36 @@ def get_email_by_token(token:str):
 
     emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
                'flatType': row[4],'streetname': row[5],'blkFrom': row[6],'blkTo': row[7],
-               'lastSent': row[8],'sent': row[9]} for row in rows]
+               'lastSent': row[8],'token': row[9]} for row in rows]
 
     connection.commit()
     connection.close()
 
 
     return emails[0]
+
+def update_email_with_token(params: dict , token:str):
+
+    print("Entering update email with token")
+    print(f"Token is {token}")
+    print(f"Params is {[params]}")
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+    email = params["email"]
+    flatType = params['flat_type_val']
+    streetName = params["street_val"] 
+    blkFrom = params["blk_from_val"]
+    blkTo = params['blk_to_val'] 
+    
+    cursor.execute("""
+                   UPDATE emails SET token = (?)  
+                   where email == (?) AND 
+                   where flatType == (?) AND
+                   streetname == (?) AND
+                   blkFrom == (?) AND
+                   blkTo == (?) 
+                   """  
+                   , (token, email, flatType, streetName, blkFrom, blkTo))
+
+    connection.commit()
+    connection.close()
