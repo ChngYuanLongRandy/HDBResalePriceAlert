@@ -164,6 +164,21 @@ def testSendEmail():
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
+# confirms the token from the user and sets user's verified to true
+@app.route('/confirm/<token>')
+def confirm(token):
+    email = get_email_by_token(token);
+
+    if user_email:
+        # Remove the token from the dictionary after confirmation
+        del user_tokens[user_email]
+        flash('Email confirmed successfully!', 'success')
+    else:
+        flash('Invalid confirmation link. Please try again.', 'error')
+
+    return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(debug=True, host='0.0.0.0', port=5000)

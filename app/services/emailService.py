@@ -3,6 +3,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
 
+
+
 # sends an email
 def send_email(df:pd.DataFrame, email:str):
     port = 465  # For SSL

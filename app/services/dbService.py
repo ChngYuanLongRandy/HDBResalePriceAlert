@@ -82,3 +82,26 @@ def update_email_with_senddatetime(email:str, datetime:str):
 
     connection.commit()
     connection.close()
+
+#   retrieves the email by the token
+def get_email_by_token(token:str):
+
+    print("Entering get email by token method")
+    print(f"Token is {token}")
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM emails where token = (?)", (token,))
+    rows = cursor.fetchall()
+
+    print(f'Rows in get email : {rows}')
+
+    emails = [{'id': row[0],'created': row[1], 'email': row[2], 'verified': row[3],
+               'flatType': row[4],'streetname': row[5],'blkFrom': row[6],'blkTo': row[7],
+               'lastSent': row[8],'sent': row[9]} for row in rows]
+
+    connection.commit()
+    connection.close()
+
+
+    return emails[0]
