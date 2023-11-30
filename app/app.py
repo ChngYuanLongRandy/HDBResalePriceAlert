@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
-from services.emailService import send_email
+from services.emailService import send_email_template
 from services.dbService import create_tables, add_email, get_emails, get_email, update_email_with_senddatetime
+from datetime import datetime
 import yaml
 
 
@@ -151,7 +152,8 @@ def testSendEmail():
             print(f"update datetime of email {email}")
             update_email_with_senddatetime(email, datetimeSent)
             print(f"Before sending email to {email}")
-            send_email(df,email)
+            content = f"Hi. This is the alert for {datetime.now().month}"
+            send_email_template(email,content,True, df)
 
         
         json_results = {
