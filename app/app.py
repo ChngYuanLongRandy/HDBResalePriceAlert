@@ -175,8 +175,8 @@ def confirm(token):
         email = get_email_by_token(token)
 
         print(f'Email found : {email}, setting verified == true')
-        update_email_verified_true(email)
-        return jsonify({'message': 'Email verified!', 'data': email}), 200
+        update_email_verified_true(email['email'])
+        return render_template('confirmationSuccess.html')
     except Exception as ex:
         print(f"Something wrong must have happened as the email was not found")
         return jsonify({'message': str(ex)}), 500

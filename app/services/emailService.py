@@ -59,6 +59,29 @@ def send_email_template(email:str, content:str, with_df:bool == None, df:pd.Data
     except Exception as ex:
         print(f"Unable to send email due to {ex} ")
 
+# def send_confirmation_email(email:str, confirmation_link:str):
+#     content = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {confirmation_link}'
+#     send_email_template(email,content)
+
+# sends an email
 def send_confirmation_email(email:str, confirmation_link:str):
-    content = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {confirmation_link}'
-    send_email_template(email,content)
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    sender_email = 'hdbresalealertservice@gmail.com'
+    receiver_email  = email
+    password = "qcbx wfzf eysm xlxk"
+    body = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {confirmation_link}'
+    message = MIMEText(body)
+    message['From'] = sender_email
+    message['To'] = receiver_email
+    message['Subject'] = "HDB Resale Alert"
+    try:
+        print(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
+        print(f"With email body : {message}")
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, message.as_string())
+        print("Email sent!")
+    except Exception as ex:
+        print(f"Unable to send email due to {ex} ")
