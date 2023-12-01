@@ -122,7 +122,7 @@ def update_email_with_token(params: dict , token:str):
     cursor.execute("""
                    UPDATE emails SET token = (?)  
                    where email == (?) AND 
-                   where flatType == (?) AND
+                   flatType == (?) AND
                    streetname == (?) AND
                    blkFrom == (?) AND
                    blkTo == (?) 

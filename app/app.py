@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
-from services.emailService import send_email_template
+from services.emailService import *
 from services.dbService import *
 from datetime import datetime
 import yaml
@@ -95,7 +95,9 @@ def register():
             add_email(input_params)
             print("attemping to add token ")
             update_email_with_token(input_params, token)
-            print("email done adding, sending 200 response")
+            confirmation_link = "/confirm/" + token
+            send_confirmation_email(input_params["email"], confirmation_link)
+            print("confirmation email sent, sending 200 response")
             return jsonify({'message': 'Registration successful', 'data': input_params['email']}), 200
 
     except Exception as e:

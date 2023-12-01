@@ -43,7 +43,7 @@ def send_email_template(email:str, content:str, with_df:bool == None, df:pd.Data
         html_body = f'<html><body>{html_table}</body></html>'
         message.attach(MIMEText(html_body, 'html'))
     else:
-        html_body = f'<html><body>{content}</body></html>'
+        html_body = f'<html><body><div>{content}</div></body></html>'
         message.attach(MIMEText(html_body, 'html'))
     message['From'] = service_email
     message['To'] = email
