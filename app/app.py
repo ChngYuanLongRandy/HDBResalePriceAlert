@@ -179,7 +179,7 @@ def confirm(token):
         return render_template('confirmationSuccess.html')
     except Exception as ex:
         print(f"Something wrong must have happened as the email was not found")
-        return jsonify({'message': str(ex)}), 500
+        return render_template('confirmationFailure.html')
 
 
 if __name__ == '__main__':

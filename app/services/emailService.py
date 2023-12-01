@@ -70,7 +70,8 @@ def send_confirmation_email(email:str, confirmation_link:str):
     sender_email = 'hdbresalealertservice@gmail.com'
     receiver_email  = email
     password = "qcbx wfzf eysm xlxk"
-    body = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {confirmation_link}'
+    domainname = "localhost:5000"
+    body = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {domainname + confirmation_link}'
     message = MIMEText(body)
     message['From'] = sender_email
     message['To'] = receiver_email
