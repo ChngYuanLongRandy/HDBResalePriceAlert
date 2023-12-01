@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Subscription Success!</h2>
+    <p>You have successfully subscribed to our service.</p>
+    <p>You will be redirected to the main page in <span id="countdown">5</span> seconds. Or <a href="/">click here</a>.</p>
+
+    <script>
+        // Countdown timer
+        let seconds = 5;
+
+        function updateCountdown() {
+            document.getElementById('countdown').textContent = seconds;
+        }
+
+        function countdown() {
+            updateCountdown();
+            seconds--;
+
+            if (seconds < 0) {
+                // Redirect to the main page after countdown
+                window.location.href = '/';
+            } else {
+                setTimeout(countdown, 1000); // Update every 1 second
+            }
+        }
+
+        // Start the countdown
+        countdown();
+    </script>
+
+</body>
+</html>
