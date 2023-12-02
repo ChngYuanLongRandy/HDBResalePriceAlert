@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, redirect
 from services import hdbService
 from model.SubUser import SubUser
 from services.emailService import *
@@ -189,17 +189,22 @@ def testSendEmail():
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
+
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     return redirect("/", code=302)
+
 # confirms the token from the user and sets user's verified to true
 @app.route('/confirm/<token>')
 def confirm(token):
     try:
-        email = get_email_by_token(token)
+        user = get_email_by_token(token)
 
-        print(f'Email found : {email}, setting verified == true')
-        update_email_verified_true(email['email'])
+        print(f'Email found : {user.email}, setting verified == true')
+        update_email_verified_true(user.email)
         return render_template('confirmationSuccess.html')
     except Exception as ex:
-        print(f"Something wrong must have happened as the email was not found")
+        print(f"Unable to confirm due to {ex}")
         return render_template('confirmationFailure.html')
 
 # Unsub the alert tagged to the token

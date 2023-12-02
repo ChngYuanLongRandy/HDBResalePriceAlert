@@ -103,7 +103,7 @@ def update_user_with_senddatetime(user:User, datetime:str):
     connection.close()
 
 #   retrieves the email by the token
-def get_email_by_token(token:str):
+def get_email_by_token(token:str)-> User:
 
     print("Entering get email by token method")
     print(f"Token is {token}")
@@ -113,7 +113,8 @@ def get_email_by_token(token:str):
     cursor.execute("SELECT * FROM emails where token = (?)", (token,))
     rows = cursor.fetchall()
 
-    print(f'Rows in get email : {rows}')
+    assert len(rows) == 1
+    print(f'Email found in database: {rows}')
 
     emails = [User(row[0],row[1],row[2],row[3],
                 row[4],row[5],row[6],row[7],row[8],row[9]) for row in rows]
