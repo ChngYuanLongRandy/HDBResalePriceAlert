@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #e74c3c;
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>404 Not Found</h1>
+    <p>Oops! It seems like something went wrong.</p>
+    <p>You will be redirected to the main page in <span id="countdown">5</span> seconds. Or <a href="/">click here</a>.</p>
+
+    <script>
+        // Countdown timer
+        let seconds = 5;
+
+        function updateCountdown() {
+            document.getElementById('countdown').textContent = seconds;
+        }
+
+        function countdown() {
+            updateCountdown();
+            seconds--;
+
+            if (seconds < 0) {
+                // Redirect to the main page after countdown
+                window.location.href = '/';
+            } else {
+                setTimeout(countdown, 1000); // Update every 1 second
+            }
+        }
+
+        // Start the countdown
+        countdown();
+    </script>
+</body>
+</html>

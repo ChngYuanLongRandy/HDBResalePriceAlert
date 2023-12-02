@@ -31,24 +31,24 @@ def send_email(df:pd.DataFrame, email:str):
     except Exception as ex:
         print(f"Unable to send email due to {ex} ")
 
-def send_email_template(email:str, content:str, with_df:bool == None, df:pd.DataFrame == None):
-    port = 465  # For SSL
-    smtp_server = "smtp.gmail.com"
-    service_email = 'hdbresalealertservice@gmail.com'
-    password = "qcbx wfzf eysm xlxk"
-    message = MIMEMultipart()
-    if (with_df):
-        html_table = df.to_html(index=False)
-        # Attach HTML content to the email
-        html_body = f'<html><body>{html_table}</body></html>'
-        message.attach(MIMEText(html_body, 'html'))
-    else:
-        html_body = f'<html><body><div>{content}</div></body></html>'
-        message.attach(MIMEText(html_body, 'html'))
-    message['From'] = service_email
-    message['To'] = email
-    message['Subject'] = "HDB Resale Alert"
+def send_email_template(email:str, header:str, footer:str, with_df:bool == None, df:pd.DataFrame == None):
     try:
+        port = 465  # For SSL
+        smtp_server = "smtp.gmail.com"
+        service_email = 'hdbresalealertservice@gmail.com'
+        password = "qcbx wfzf eysm xlxk"
+        message = MIMEMultipart()
+        if (with_df):
+            html_table = df.to_html(index=False)
+            # Attach HTML content to the email
+            html_body = f'<html><body>{header} <br> {html_table} <br> {footer} </body></html>'
+            message.attach(MIMEText(html_body, 'html'))
+        else:
+            html_body = f'<html><body><div>{header}<br>{footer}</div></body></html>'
+            message.attach(MIMEText(html_body, 'html'))
+        message['From'] = service_email
+        message['To'] = email
+        message['Subject'] = "HDB Resale Alert"
         print(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
         print(f"With email body : {html_body}")
         context = ssl.create_default_context()

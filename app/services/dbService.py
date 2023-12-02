@@ -3,6 +3,7 @@ from flask import g
 import yaml
 from model.User import User
 from model.SubUser import SubUser
+from typing import List
 
 config_path = "app/config/config.yaml"
 
@@ -40,7 +41,7 @@ def add_email(new_user:SubUser):
     connection.commit()
     connection.close()
 
-def get_emails():
+def get_emails() -> List[User]: 
     try:
         print("Entering Get emails method from dbservice")
         connection = sqlite3.connect('database.db')
@@ -73,29 +74,30 @@ def get_emails():
     except Exception as ex:
         print(f"Unable to retrieve all emails due to {ex}")
 
-def get_email(email:str):
+def get_email(email:str) -> User:
     print("Entering get email method")
     print(f"Email is {email}")
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM emails where email = (?)", (email,))
-    rows = cursor.fetchall()
+    rows = cursor.fetchone()
 
     print(f'Rows in get email : {rows}')
 
-    emails = [User.from_dict(dict(row)) for row in rows]
-
+    emails = [User(row[0],row[1],row[2],row[3],
+                row[4],row[5],row[6],row[7],row[8],row[9]) for row in rows]
+    
     connection.commit()
     connection.close()
 
     return emails
 
-def update_email_with_senddatetime(email:str, datetime:str):
+def update_user_with_senddatetime(user:User, datetime:str):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
 
-    cursor.execute("UPDATE emails SET lastSent = (?)  where email == (?)", (datetime,email,))
+    cursor.execute("UPDATE emails SET lastSent = (?)  where token == (?)", (datetime,user.token,))
 
     connection.commit()
     connection.close()
@@ -113,8 +115,9 @@ def get_email_by_token(token:str):
 
     print(f'Rows in get email : {rows}')
 
-    emails = [User.from_dict(dict(row)) for row in rows]
-
+    emails = [User(row[0],row[1],row[2],row[3],
+                row[4],row[5],row[6],row[7],row[8],row[9]) for row in rows]
+    
     connection.commit()
     connection.close()
 
@@ -159,3 +162,41 @@ def update_email_verified_true(email:str):
 
     connection.commit()
     connection.close()
+
+def get_user_by_token(token:str) -> User:
+    try:
+        print("Entering get user by token")
+        print(f"Token is {token}")
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * from emails where token == (?)", (token,))
+        rows = cursor.fetchall()
+
+        assert len(rows) == 1
+
+        emails = [User(row[0],row[1],row[2],row[3],
+                    row[4],row[5],row[6],row[7],row[8],row[9]) for row in rows]
+
+        connection.commit()
+        connection.close() 
+
+        return emails[0]
+
+    except Exception as ex:
+        print(f"Unable to execute due to {ex}")
+
+#   delete alert based on token
+def remove_alert_based_on_token(user:User):
+    try:
+        print("Entering Remove alert based on token")
+        print(f"user is {user}")
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+
+        cursor.execute("DELETE from emails where token == (?)", (user.token,))
+
+        connection.commit()
+        connection.close()
+    except Exception as ex:
+        print(f"Unable to execute due to {ex}")

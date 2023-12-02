@@ -134,50 +134,58 @@ def testSendEmail():
 
 
         # Gathers a list of verified emails
-        db= get_emails()
+        users= get_emails()
         print("Printing all verified emails in db")
-        emails = []
-        for entry in db:
-            if entry["verified"] == True:
-                print(entry["email"])
-                emails.append(entry["email"])
+        verified_users = []
+        for user in users:
+            if user.verified == True:
+                print(user.email)
+                verified_users.append(user)
 
         # sorted_emails = {}
 
         # # Sorts them into identical lists
         # for email in emails:
-        print(f"Contents of emails : {emails}")
+        print(f"Contents of verified_users : {verified_users}")
 
-        for email in emails:
-            print(f"Email : {email}")
-            email_params = get_email(email)[0] # should only be one result since I'm doing a test
-            print(f'Email params : {email_params}')
-            print(f"email_params['flatType'] : {email_params['flatType']}")
-            print(f"params flat type val : {params['params']['flat_type_val']}")
+        for verified_user in verified_users:
+            print(f"verified_user : {verified_user}")
+            # email_params = get_email(email)
+            # print(f'Email params : {email_params}')
+            # print(f"email_params['flatType'] : {email_params['flatType']}")
+            # print(f"params flat type val : {params['params']['flat_type_val']}")
 
-            params['params']['flat_type_val'] = email_params['flatType']
-            print('passed 1')
-            params['params']['street_val'] = email_params['streetname']
-            print('passed 2')
-            params['params']['blk_from_val'] = email_params['blkFrom']
-            print('passed 3')
-            params['params']['blk_to_val'] = email_params['blkTo']
-            print('passed 4')
+            # params['params']['flat_type_val'] = email_params['flatType']
+            # print('passed 1')
+            # params['params']['street_val'] = email_params['streetname']
+            # print('passed 2')
+            # params['params']['blk_from_val'] = email_params['blkFrom']
+            # print('passed 3')
+            # params['params']['blk_to_val'] = email_params['blkTo']
+            # print('passed 4')
+
+            params['params']['flat_type_val'] = verified_user.flatType
+            params['params']['street_val'] = verified_user.streetName
+            params['params']['blk_from_val'] = verified_user.blkFrom
+            params['params']['blk_to_val'] = verified_user.blkTo
+
+
             print(f"params : {params['params']}")
             df = hdbService.get_results(params['params'], params['headers_street'], 'df')
             print(f"Results in dataframe format : {df}")
-            print(f"update datetime of email {email}")
-            update_email_with_senddatetime(email, datetimeSent)
-            print(f"Before sending email to {email}")
-            content = f"Hi. This is the alert for {datetime.now().month}"
-            send_email_template(email,content,True, df)
+            print(f"update datetime of email {verified_user.email}")
+            update_user_with_senddatetime(verified_user, datetimeSent)
+            print(f"Before sending email to {verified_user.email}")
+            header = f"""Hi. This is the alert for {datetime.now().month} month, {datetime.now().year}"""
+            footer = f"If you would like to unsubscribe to this alert, click this link : localhost:5000/unsub/{verified_user.token}"
+            send_email_template(verified_user.email,header, footer,True, df)
 
         
         json_results = {
-        'emails': emails
+        'emails': verified_users
         }   
 
-        return jsonify({'message': 'Emails sent', 'data': json_results['emails']}), 200
+        return jsonify({'message': 'Emails sent', 'data': json_results}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
@@ -194,6 +202,19 @@ def confirm(token):
         print(f"Something wrong must have happened as the email was not found")
         return render_template('confirmationFailure.html')
 
+# Unsub the alert tagged to the token
+@app.route('/unsub/<token>')
+def unsubscribeAlert(token):
+    try:
+        user = get_user_by_token(token)
+
+        print(f'Email found : {user.email}, removing this alert in database')
+        assert user.token == token
+        remove_alert_based_on_token(user)
+        return render_template('unsubAlert.html')
+    except Exception as ex:
+        print(f"Something wrong must have happened as the email was not found")
+        return render_template('generic404.html')
 
 if __name__ == '__main__':
     # app.run(debug=True)
