@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from services import hdbService
+from model.SubUser import SubUser
 from services.emailService import *
 from services.dbService import *
 from datetime import datetime
@@ -71,34 +72,46 @@ def register():
         input_params = {}
 
         data = request.get_json()
-        input_params["email"] = data['email']
-        input_params['flat_type_val'] = data['flatType']
-        input_params["street_val"] = data['streetName']
-        input_params["blk_from_val"] = data['blkNumberFrom']
-        input_params['blk_to_val'] = data['blkNumberTo']
+        new_user = SubUser(data['email'],data['flatType'],data['streetName'],data['blkNumberFrom'],data['blkNumberTo'])
+        # input_params["email"] = data['email']
+        # input_params['flat_type_val'] = data['flatType']
+        # input_params["street_val"] = data['streetName']
+        # input_params["blk_from_val"] = data['blkNumberFrom']
+        # input_params['blk_to_val'] = data['blkNumberTo']
 
-        db= get_emails()
+        users = get_emails()
         print("Printing all emails in db")
-        emails = []
-        for entry in db:
-            print(entry["email"])
-            emails.append(entry["email"])
+        for a_user in users:
+            print(a_user.email)
 
         token = secrets.token_urlsafe() + secrets.token_urlsafe()
 
-        # Check if the email is already registered
-        if input_params["email"] in emails:
-            print("email exists, sending 400 response")
-            return jsonify({'error': 'Email is already registered'}), 400
+        # Check if the params are already in the database:
+        print(f"new_user : {new_user}")
+        for user in users:
+            print(f"user : {user}")
+            print(f"email: {new_user.email == user.email}")
+            print(f"blkrom: {new_user.blkFrom == user.blkFrom}")
+            print(f"blkto: {new_user.blkTo == user.blkTo}")
+            print(f"flatype: {new_user.flatType == user.flatType}")
+            print(f"streetname: {new_user.streetName == user.streetName}")
+            
+            if (new_user.email == user.email and
+                new_user.blkFrom == user.blkFrom and
+                new_user.blkTo == user.blkTo and
+                new_user.streetName == user.streetName and
+                new_user.flatType == user.flatType):
+            # if (new_user == user)
+                print("email exists, sending 400 response")
+                return jsonify({'error': 'Email is already registered'}), 400
 
-        else:
-            add_email(input_params)
-            print("attemping to add token ")
-            update_email_with_token(input_params, token)
-            confirmation_link = "/confirm/" + token
-            send_confirmation_email(input_params["email"], confirmation_link)
-            print("confirmation email sent, sending 200 response")
-            return jsonify({'message': 'Registration successful', 'data': input_params['email']}), 200
+        add_email(new_user)
+        print("attemping to add token ")
+        update_email_with_token(new_user, token)
+        confirmation_link = "/confirm/" + token
+        send_confirmation_email(new_user, confirmation_link)
+        print("confirmation email sent, sending 200 response")
+        return jsonify({'message': 'Registration successful', 'data': new_user.email}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
