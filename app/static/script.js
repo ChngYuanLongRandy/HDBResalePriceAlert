@@ -51,6 +51,23 @@ async function submitForm() {
     const blkNumberFrom = document.getElementById('blkNumberFrom').value;
     const blkNumberTo = document.getElementById('blkNumberTo').value;
 
+    // When submit form is clicked, it will show the spinning wheel and hide content
+    showLoader()
+    hideContent()
+
+    async function showLoader() {
+        const loader = document.getElementById("loader");
+        loader.classList.add("loader")
+        loader.style.display = "block";
+    }
+    
+    
+    
+    async function hideContent() {
+        const content = document.getElementById("resultContainer");
+        content.style.display = "none";
+    }
+
     // Replace the URL with the actual endpoint for submitting the form data
     const submitEndpoint = '/submit';
 
@@ -88,6 +105,22 @@ async function submitForm() {
 // Function to handle result display
 function displayResults(results) {
     const resultContainer = document.getElementById('resultContainer');
+    const loadingContainer = document.getElementById('loadingContainer');
+
+
+    // Hide the loading container and show content
+    hideLoader()
+    showContent()
+
+    async function hideLoader() {
+        const loader = document.getElementById("loader");
+        loader.style.display = "none";
+    }
+    
+    async function showContent() {
+        const content = document.getElementById("resultContainer");
+        content.style.display = "block";
+    }
 
     if (results.data.length > 0) {
         // Clear previous results
@@ -225,5 +258,8 @@ async function testSendEmail() {
     } catch (error) {
         console.error('Error during submission:', error.message);
     }
+
+
+
 
 }
