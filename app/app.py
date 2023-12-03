@@ -190,9 +190,9 @@ def testSendEmail():
         return jsonify({'message': str(e)}), 500
 
 
-# @app.errorhandler(404)
-# def page_not_found(e):
-#     return redirect("/", code=302)
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect("/", code=302)
 
 # confirms the token from the user and sets user's verified to true
 @app.route('/confirm/<token>')
