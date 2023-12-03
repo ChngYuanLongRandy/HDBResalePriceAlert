@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, redirect
 from services import hdbService
-from services.emailService import send_email_template
+from model.SubUser import SubUser
+from services.emailService import *
 from services.dbService import *
 from datetime import datetime
 import yaml
@@ -71,32 +72,46 @@ def register():
         input_params = {}
 
         data = request.get_json()
-        input_params["email"] = data['email']
-        input_params['flat_type_val'] = data['flatType']
-        input_params["street_val"] = data['streetName']
-        input_params["blk_from_val"] = data['blkNumberFrom']
-        input_params['blk_to_val'] = data['blkNumberTo']
+        new_user = SubUser(data['email'],data['flatType'],data['streetName'],data['blkNumberFrom'],data['blkNumberTo'])
+        # input_params["email"] = data['email']
+        # input_params['flat_type_val'] = data['flatType']
+        # input_params["street_val"] = data['streetName']
+        # input_params["blk_from_val"] = data['blkNumberFrom']
+        # input_params['blk_to_val'] = data['blkNumberTo']
 
-        db= get_emails()
+        users = get_emails()
         print("Printing all emails in db")
-        emails = []
-        for entry in db:
-            print(entry["email"])
-            emails.append(entry["email"])
+        for a_user in users:
+            print(a_user.email)
 
         token = secrets.token_urlsafe() + secrets.token_urlsafe()
 
-        # Check if the email is already registered
-        if input_params["email"] in emails:
-            print("email exists, sending 400 response")
-            return jsonify({'error': 'Email is already registered'}), 400
+        # Check if the params are already in the database:
+        print(f"new_user : {new_user}")
+        for user in users:
+            print(f"user : {user}")
+            print(f"email: {new_user.email == user.email}")
+            print(f"blkrom: {new_user.blkFrom == user.blkFrom}")
+            print(f"blkto: {new_user.blkTo == user.blkTo}")
+            print(f"flatype: {new_user.flatType == user.flatType}")
+            print(f"streetname: {new_user.streetName == user.streetName}")
+            
+            if (new_user.email == user.email and
+                new_user.blkFrom == user.blkFrom and
+                new_user.blkTo == user.blkTo and
+                new_user.streetName == user.streetName and
+                new_user.flatType == user.flatType):
+            # if (new_user == user)
+                print("email exists, sending 400 response")
+                return jsonify({'error': 'Email is already registered'}), 400
 
-        else:
-            add_email(input_params)
-            print("attemping to add token ")
-            update_email_with_token(input_params, token)
-            print("email done adding, sending 200 response")
-            return jsonify({'message': 'Registration successful', 'data': input_params['email']}), 200
+        add_email(new_user)
+        print("attemping to add token ")
+        update_email_with_token(new_user, token)
+        confirmation_link = "/confirm/" + token
+        send_confirmation_email(new_user, confirmation_link)
+        print("confirmation email sent, sending 200 response")
+        return jsonify({'message': 'Registration successful', 'data': new_user.email}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -119,66 +134,92 @@ def testSendEmail():
 
 
         # Gathers a list of verified emails
-        db= get_emails()
+        users= get_emails()
         print("Printing all verified emails in db")
-        emails = []
-        for entry in db:
-            if entry["verified"] == True:
-                print(entry["email"])
-                emails.append(entry["email"])
+        verified_users = []
+        for user in users:
+            if user.verified == True:
+                print(user.email)
+                verified_users.append(user)
 
         # sorted_emails = {}
 
         # # Sorts them into identical lists
         # for email in emails:
-        print(f"Contents of emails : {emails}")
+        print(f"Contents of verified_users : {verified_users}")
 
-        for email in emails:
-            print(f"Email : {email}")
-            email_params = get_email(email)[0] # should only be one result since I'm doing a test
-            print(f'Email params : {email_params}')
-            print(f"email_params['flatType'] : {email_params['flatType']}")
-            print(f"params flat type val : {params['params']['flat_type_val']}")
+        for verified_user in verified_users:
+            print(f"verified_user : {verified_user}")
+            # email_params = get_email(email)
+            # print(f'Email params : {email_params}')
+            # print(f"email_params['flatType'] : {email_params['flatType']}")
+            # print(f"params flat type val : {params['params']['flat_type_val']}")
 
-            params['params']['flat_type_val'] = email_params['flatType']
-            print('passed 1')
-            params['params']['street_val'] = email_params['streetname']
-            print('passed 2')
-            params['params']['blk_from_val'] = email_params['blkFrom']
-            print('passed 3')
-            params['params']['blk_to_val'] = email_params['blkTo']
-            print('passed 4')
+            # params['params']['flat_type_val'] = email_params['flatType']
+            # print('passed 1')
+            # params['params']['street_val'] = email_params['streetname']
+            # print('passed 2')
+            # params['params']['blk_from_val'] = email_params['blkFrom']
+            # print('passed 3')
+            # params['params']['blk_to_val'] = email_params['blkTo']
+            # print('passed 4')
+
+            params['params']['flat_type_val'] = verified_user.flatType
+            params['params']['street_val'] = verified_user.streetName
+            params['params']['blk_from_val'] = verified_user.blkFrom
+            params['params']['blk_to_val'] = verified_user.blkTo
+
+
             print(f"params : {params['params']}")
             df = hdbService.get_results(params['params'], params['headers_street'], 'df')
             print(f"Results in dataframe format : {df}")
-            print(f"update datetime of email {email}")
-            update_email_with_senddatetime(email, datetimeSent)
-            print(f"Before sending email to {email}")
-            content = f"Hi. This is the alert for {datetime.now().month}"
-            send_email_template(email,content,True, df)
+            print(f"update datetime of email {verified_user.email}")
+            update_user_with_senddatetime(verified_user, datetimeSent)
+            print(f"Before sending email to {verified_user.email}")
+            header = f"""Hi. This is the alert for {datetime.now().month} month, {datetime.now().year}"""
+            footer = f"If you would like to unsubscribe to this alert, click this link : localhost:5000/unsub/{verified_user.token}"
+            send_email_template(verified_user.email,header, footer,True, df)
 
         
         json_results = {
-        'emails': emails
+        'emails': verified_users
         }   
 
-        return jsonify({'message': 'Emails sent', 'data': json_results['emails']}), 200
+        return jsonify({'message': 'Emails sent', 'data': json_results}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect("/", code=302)
 
 # confirms the token from the user and sets user's verified to true
 @app.route('/confirm/<token>')
 def confirm(token):
     try:
-        email = get_email_by_token(token)
+        user = get_email_by_token(token)
 
-        print(f'Email found : {email}, setting verified == true')
-        update_email_verified_true(email)
-        return jsonify({'message': 'Email verified!', 'data': email}), 200
+        print(f'Email found : {user.email}, setting verified == true')
+        update_email_verified_true(user.email)
+        return render_template('confirmationSuccess.html')
+    except Exception as ex:
+        print(f"Unable to confirm due to {ex}")
+        return render_template('confirmationFailure.html')
+
+# Unsub the alert tagged to the token
+@app.route('/unsub/<token>')
+def unsubscribeAlert(token):
+    try:
+        user = get_user_by_token(token)
+
+        print(f'Email found : {user.email}, removing this alert in database')
+        assert user.token == token
+        remove_alert_based_on_token(user)
+        return render_template('unsubAlert.html')
     except Exception as ex:
         print(f"Something wrong must have happened as the email was not found")
-        return jsonify({'message': str(ex)}), 500
-
+        return render_template('generic404.html')
 
 if __name__ == '__main__':
     # app.run(debug=True)

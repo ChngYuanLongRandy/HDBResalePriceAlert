@@ -31,3 +31,19 @@ button {
     border-radius: 4px;
     cursor: pointer;
 }
+
+/* Styles for Footnote */
+#footnote {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 10px;
+}
+
+#footnote a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+#footnote a:hover {
+    text-decoration: underline;
+}
