@@ -3,7 +3,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
 from model.SubUser import SubUser
+from app import app
 
+email_password = app.email_password
 
 # sends an email
 def send_email(df:pd.DataFrame, email:str):
@@ -11,7 +13,7 @@ def send_email(df:pd.DataFrame, email:str):
     smtp_server = "smtp.gmail.com"
     sender_email = 'hdbresalealertservice@gmail.com'
     receiver_email  = email
-    password = "qcbx wfzf eysm xlxk"
+    password = email_password
     html_table = df.to_html(index=False)
     # Attach HTML content to the email
     message = MIMEMultipart()
@@ -36,7 +38,7 @@ def send_email_template(email:str, header:str, footer:str, with_df:bool == None,
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
         service_email = 'hdbresalealertservice@gmail.com'
-        password = "qcbx wfzf eysm xlxk"
+        password = email_password
         message = MIMEMultipart()
         if (with_df):
             html_table = df.to_html(index=False)
@@ -71,7 +73,7 @@ def send_confirmation_email(new_user:SubUser, confirmation_link:str):
         smtp_server = "smtp.gmail.com"
         sender_email = 'hdbresalealertservice@gmail.com'
         receiver_email  = new_user.email
-        password = "qcbx wfzf eysm xlxk"
+        password = email_password
         domainname = "localhost:5000"
         body = f"""
         You are signing up for HDB Resale Price Alerts with the following search parameters:

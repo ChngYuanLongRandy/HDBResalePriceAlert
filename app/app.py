@@ -6,10 +6,11 @@ from services.dbService import *
 from datetime import datetime
 import yaml
 import secrets
-
+import os
 
 app = Flask(__name__)
-app.config['DATABASE'] = 'HDBResaleAlertPriceEmails.db'
+app.config['DATABASE'] = 'database.db'
+app.config['EMAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
 config_path = "app/config/config.yaml"
 
 
@@ -182,7 +183,7 @@ def testSendEmail():
 
         
         json_results = {
-        'emails': verified_users
+        'emails': [user.email for user in verified_users]
         }   
 
         return jsonify({'message': 'Emails sent', 'data': json_results}), 200
