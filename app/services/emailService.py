@@ -5,7 +5,7 @@ import smtplib, ssl
 from model.SubUser import SubUser
 from app import app
 
-email_password = app.email_password
+email_password = app.config['EMAIL_PASSWORD']
 
 # sends an email
 def send_email(df:pd.DataFrame, email:str):
