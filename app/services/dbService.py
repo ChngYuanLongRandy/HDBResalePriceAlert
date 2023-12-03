@@ -37,11 +37,7 @@ def add_email(new_user:SubUser):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-<<<<<<< HEAD
-                   (params["email"],' false', params["flat_type_val"], params["street_val"], params["blk_from_val"], params["blk_to_val"], 'null', 'null'))
-=======
                    (new_user.email,' false', new_user.flatType, new_user.streetName, new_user.blkFrom, new_user.blkTo, 'null', 'null'))
->>>>>>> c59187b4405411baa10f71bb3d53cd4ae0b6c84e
     connection.commit()
     connection.close()
 

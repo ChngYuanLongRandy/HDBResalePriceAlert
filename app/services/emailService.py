@@ -2,11 +2,7 @@ import pandas as pd
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
-<<<<<<< HEAD
-
-=======
 from model.SubUser import SubUser
->>>>>>> c59187b4405411baa10f71bb3d53cd4ae0b6c84e
 
 
 # sends an email
