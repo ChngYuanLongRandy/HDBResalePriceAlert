@@ -12,7 +12,10 @@
     <div class="container">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
           <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-houses-fill" viewBox="0 0 16 16">
+                <path d="M7.207 1a1 1 0 0 0-1.414 0L.146 6.646a.5.5 0 0 0 .708.708L1 7.207V12.5A1.5 1.5 0 0 0 2.5 14h.55a2.51 2.51 0 0 1-.05-.5V9.415a1.5 1.5 0 0 1-.56-2.475l5.353-5.354z"/>
+                <path d="M8.793 2a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708z"/>
+              </svg>
             <span class="fs-4">HDB Resale Price Alert</span>
           </a>
     
@@ -26,50 +29,33 @@
         </header>
       </div>
 
-    <!-- <h1>HDB Specifications</h1> -->
-
     <div>
         <label for="flatType">Flat Type:</label>
-        <select id="flatType">
+        <select id="flatType" class="form-select" aria-label="Default select example">
         </select>
     </div>
 
-    <!-- <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center"> -->
-        <!-- <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px" data-bs-theme="light">
-          <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
-          <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
-          <li><a class="dropdown-item rounded-2" href="#">Something else here</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li>
-        </ul> -->
-        <!-- <ul id ="flatType" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark"> -->
-          <!-- <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
-          <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
-          <li><a class="dropdown-item rounded-2" href="#">Something else here</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li> -->
-        <!-- </ul>
-      </div> -->
-
     <div>
-        <label for="streetName">Street Name:</label>
-        <select id="streetName">
+        <label for="streetName">Flat Type:</label>
+        <select id="streetName" class="form-select" aria-label="Default select example">
         </select>
     </div>
 
     <div>
         <label for="blkNumberFrom">Block Number from:</label>
-        <input type="text" id="blkNumberFrom" placeholder="Block From">
+        <input type="text" id="blkNumberFrom" class="form-select" placeholder="Block From">
         </select>
     </div>
+
+    
 
     <div>
         <label for="blkNumberTo">Block Number to:</label>
-        <input type="text" id="blkNumberTo" placeholder="Block To">
+        <input type="text" id="blkNumberTo" class="form-select" placeholder="Block To">
         </select>
     </div>
 
-    <button onclick="submitForm()">Submit</button>
+    <button class="btn btn-primary" onclick="submitForm()">Submit</button>
 
     <div id="loader"></div>
 
@@ -79,12 +65,12 @@
     <p>Save these search parameters as a monthly email alert service</p>
     <div>
         <label for="email">Email Address:</label>
-        <input type="email" id="email" placeholder="Enter your email">
+        <input type="email" id="email" class="form-select" placeholder="Enter your email">
     </div>
 
-    <button onclick="registerUser()">Sign up!</button>
+    <button class="btn btn-primary" onclick="registerUser()">Sign up!</button>
 
-    <p id="footnote">By signing up to the monthly email alert service, only email addresses of subscribers will be collected and retained as long as their subscription remains active. 
+    <p id="footnote" class="white" >By signing up to the monthly email alert service, only email addresses of subscribers will be collected and retained as long as their subscription remains active. 
         Upon subscription termination, email addresses will be promptly deleted immediately. You may request the deletion of your email address at any time, and appropriate security measures are in place to protect your data.
     any queries please contact me <a href="randychng.wordpress.com">here</a></p>
 

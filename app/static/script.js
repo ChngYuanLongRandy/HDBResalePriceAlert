@@ -137,11 +137,14 @@ function displayResults(results) {
 
         // Create a table to display the results
         const table = document.createElement('table');
+        table.classList.add("table")
+        // table.classList.add("table table-light table-hover")
         table.border = '1';
 
         // Create table header
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
+        // headerRow.classList.add(".table-light")
 
         results.columns.forEach(column => {
             const th = document.createElement('th');
