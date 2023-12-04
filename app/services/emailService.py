@@ -5,7 +5,8 @@ import smtplib, ssl
 from model.SubUser import SubUser
 from app import app
 
-email_password = app.config['EMAIL_PASSWORD']
+# email_password = app.config['EMAIL_PASSWORD']
+email_password = 'qcbx wfzf eysm xlxk'
 
 # sends an email
 def send_email(df:pd.DataFrame, email:str):
@@ -75,15 +76,21 @@ def send_confirmation_email(new_user:SubUser, confirmation_link:str):
         receiver_email  = new_user.email
         password = email_password
         domainname = "localhost:5000"
+        message = MIMEMultipart()
         body = f"""
-        You are signing up for HDB Resale Price Alerts with the following search parameters:
-        Street name : {new_user.streetName}
-        Flat Type: {new_user.flatType}
-        Blk From : {new_user.blkFrom}
-        Blk To : {new_user.blkTo}
-        Please click the following link to confirm your email: {domainname + confirmation_link}
+<p>You are signing up for HDB Resale Price Alerts with the following search parameters:</p>
+<ul>
+    <li>Street name: {new_user.streetName}</li>
+    <li>Flat Type: {new_user.flatType}</li>
+    <li>Blk From: {new_user.blkFrom}</li>
+    <li>Blk To: {new_user.blkTo}</li>
+</ul>
+<br>
+<p>Please click the following link to confirm your email: <a href="http://{domainname + confirmation_link}" style="color: #3498db; text-decoration: underline;">Confirm Email</a></p>
+
         """
-        message = MIMEText(body)
+        html_body = f'<html><body>{body}</body></html>'
+        message.attach(MIMEText(html_body, 'html'))
         message['From'] = sender_email
         message['To'] = receiver_email
         message['Subject'] = "HDB Resale Alert"
