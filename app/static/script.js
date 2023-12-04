@@ -37,6 +37,15 @@ function repopulateComboboxes(data) {
         flatTypeCombobox.add(optionElement);
     });
 
+    // data.flatTypeCombobox.forEach(item => {
+    //     const option = document.createElement('option');
+
+    //     option.value = item.value;
+    //     option.textContent = item.label;
+
+    //     flatTypeCombobox.appendChild(option)
+    // })
+
     // Example: Repopulate streetNameCombobox
     data.street_name_combobox.forEach(option => {
         const optionElement = document.createElement('option');

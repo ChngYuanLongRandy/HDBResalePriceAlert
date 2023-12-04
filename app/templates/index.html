@@ -1,20 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en", data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>HDB Resale Price Alert Service</title>
 </head>
 <body>
 
-    <h1>HDB Specifications</h1>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">HDB Resale Price Alert</span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+          </ul>
+        </header>
+      </div>
+
+    <!-- <h1>HDB Specifications</h1> -->
 
     <div>
         <label for="flatType">Flat Type:</label>
         <select id="flatType">
         </select>
     </div>
+
+    <!-- <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center"> -->
+        <!-- <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px" data-bs-theme="light">
+          <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
+          <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
+          <li><a class="dropdown-item rounded-2" href="#">Something else here</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li>
+        </ul> -->
+        <!-- <ul id ="flatType" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark"> -->
+          <!-- <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
+          <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
+          <li><a class="dropdown-item rounded-2" href="#">Something else here</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li> -->
+        <!-- </ul>
+      </div> -->
 
     <div>
         <label for="streetName">Street Name:</label>
@@ -53,6 +88,7 @@
         Upon subscription termination, email addresses will be promptly deleted immediately. You may request the deletion of your email address at any time, and appropriate security measures are in place to protect your data.
     any queries please contact me <a href="randychng.wordpress.com">here</a></p>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
     <script src="../static/script.js"></script>
 </body>
