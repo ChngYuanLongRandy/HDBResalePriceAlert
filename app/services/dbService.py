@@ -34,12 +34,15 @@ def create_tables():
         connection.close()
 
 def add_email(new_user:SubUser):
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-                   (new_user.email,' false', new_user.flatType, new_user.streetName, new_user.blkFrom, new_user.blkTo, 'null', 'null'))
-    connection.commit()
-    connection.close()
+    try:
+        connection = sqlite3.connect('database.db')
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (new_user.email,' false', new_user.flatType, new_user.streetName, new_user.blkFrom, new_user.blkTo, 'null', 'null'))
+        connection.commit()
+        connection.close()
+    except Exception as ex:
+        print(f"Unable to add email due to {ex}")
 
 def get_emails() -> List[User]: 
     try:
