@@ -9,25 +9,17 @@
 </head>
 <body>
 
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>HDB Resale Price Alert</h1>
+      <p>Monthly email Service</p>
+    </div>
+  </div>
+
+  <div class="container" class="col-sm-4">
     <div class="container">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-houses-fill" viewBox="0 0 16 16">
-                <path d="M7.207 1a1 1 0 0 0-1.414 0L.146 6.646a.5.5 0 0 0 .708.708L1 7.207V12.5A1.5 1.5 0 0 0 2.5 14h.55a2.51 2.51 0 0 1-.05-.5V9.415a1.5 1.5 0 0 1-.56-2.475l5.353-5.354z"/>
-                <path d="M8.793 2a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708z"/>
-              </svg>
-            <span class="fs-4">HDB Resale Price Alert</span>
-          </a>
-    
-          <ul class="nav nav-pills">
-            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-          </ul>
-        </header>
-      </div>
+     
+      <h3>Check the last 6 months of transaction:</h3>
 
     <div>
         <label for="flatType">Flat Type:</label>
@@ -57,12 +49,21 @@
 
     <button class="btn btn-primary" onclick="submitForm()">Submit</button>
 
+    <br>
+    <br>
+
     <div id="loader"></div>
 
     <!-- Add a div for displaying results -->
     <div id="resultContainer"></div>
 
-    <p>Save these search parameters as a monthly email alert service</p>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h3>Save these search parameters as a monthly email alert service</h3>
     <div>
         <label for="email">Email Address:</label>
         <input type="email" id="email" class="form-select" placeholder="Enter your email">
@@ -70,9 +71,14 @@
 
     <button class="btn btn-primary" onclick="registerUser()">Sign up!</button>
 
+    <br>
+    <br>
+
     <p id="footnote" class="white" >By signing up to the monthly email alert service, only email addresses of subscribers will be collected and retained as long as their subscription remains active. 
         Upon subscription termination, email addresses will be promptly deleted immediately. You may request the deletion of your email address at any time, and appropriate security measures are in place to protect your data.
     any queries please contact me <a href="randychng.wordpress.com">here</a></p>
+
+  </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-yaml/dist/js-yaml.min.js"></script>
