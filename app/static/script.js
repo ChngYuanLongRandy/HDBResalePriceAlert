@@ -37,16 +37,6 @@ function repopulateComboboxes(data) {
         flatTypeCombobox.add(optionElement);
     });
 
-    // data.flatTypeCombobox.forEach(item => {
-    //     const option = document.createElement('option');
-
-    //     option.value = item.value;
-    //     option.textContent = item.label;
-
-    //     flatTypeCombobox.appendChild(option)
-    // })
-
-    // Example: Repopulate streetNameCombobox
     data.street_name_combobox.forEach(option => {
         const optionElement = document.createElement('option');
         optionElement.text = option;
@@ -213,8 +203,38 @@ async function registerUser() {
         console.log('Data:', data);
         // Handle the response data as needed
         console.log('Submission successful:', data);
+        showMessage();
     } catch (error) {
         console.error('Error during submission:', error.message);
+    }
+
+    function showMessage(success){
+        // Get the button and the message elements
+        var registerBtn = document.getElementById("registerBtn");
+        var message = document.getElementById("message");
+        
+        // Create a new message element if it does not exist
+        message = document.createElement("div");
+        message.id = "message";
+        if (success) {
+            message.innerHTML = "Registration Success! <br>You will receive an email from us shortly for confirmation";
+        }
+
+        else {
+            message.innerHTML = "Registration Failure, kindly retry or contact me <a href='mailto:chngyuanlong@gmail.com'>here</a>"
+        }
+
+        document.body.appendChild(message);
+        // Show the message element
+        message.style.display = "block";
+        // Set the opacity to 1 (visible)
+        message.style.opacity = "1";
+        setTimeout(function() {
+            // Set the opacity to 0 (transparent)
+            message.style.opacity = "0";
+            // Set the display to none (hidden)
+            message.style.display = "none";
+            }, 5000);
     }
 
 }
