@@ -230,7 +230,7 @@ async function registerUser() {
         if (success) {
             message.innerHTML = "Registration Success! <br>You will receive an email from us shortly for confirmation";
         } else {
-            message.innerHTML = "Registration Failure, kindly retry or contact me <a href='mailto:chngyuanlong@gmail.com'>here</a>"
+            message.innerHTML = "Registration Failure, kindly retry with correct parameters or contact me <a href='mailto:chngyuanlong@gmail.com'>here</a>"
         }
         // Show the message element
         message.style.display = "block";
