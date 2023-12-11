@@ -55,7 +55,7 @@ async function submitForm() {
     hideContent()
 
     async function showLoader() {
-        const loader = document.getElementById("loader");
+        const loader = document.getElementById("submitLoader");
         loader.classList.add("loader")
         loader.style.display = "block";
     }
@@ -112,7 +112,7 @@ function displayResults(results) {
     showContent()
 
     async function hideLoader() {
-        const loader = document.getElementById("loader");
+        const loader = document.getElementById("submitLoader");
         loader.style.display = "none";
     }
     
@@ -181,6 +181,10 @@ async function registerUser() {
     // Replace the URL with the actual endpoint for registering a user
     const registerEndpoint = '/register';
 
+    // Show loader hide content
+    showLoader();
+    hideContent();
+
     try {
         // Make a POST request to the register endpoint
         const response = await fetch(registerEndpoint, {
@@ -203,24 +207,31 @@ async function registerUser() {
         console.log('Data:', data);
         // Handle the response data as needed
         console.log('Submission successful:', data);
+        hideLoader();
+        showContent();
         showMessage(success);
     } catch (error) {
+        hideLoader();
+        showContent();
         success = false;
         showMessage(success);
         console.error('Error during submission:', error.message);
     }
 
+    finally {
+        hideLoader();
+        showContent();
+        console.log('Finally step');
+    }
+
     function showMessage(success) {
         // Create a new message element if it does not exist
-        message = document.createElement("div");
-        message.id = "message";
+        message = document.getElementById("messageDiv");
         if (success) {
             message.innerHTML = "Registration Success! <br>You will receive an email from us shortly for confirmation";
         } else {
             message.innerHTML = "Registration Failure, kindly retry or contact me <a href='mailto:chngyuanlong@gmail.com'>here</a>"
         }
-
-        document.getElementById('messageDiv').appendChild(message);
         // Show the message element
         message.style.display = "block";
         // Set the opacity to 1 (visible)
@@ -246,6 +257,28 @@ async function registerUser() {
                 }
             }, fadeOutInterval);
         }, fadeOutStart);
+    }
+
+
+    async function hideLoader() {
+        const loader = document.getElementById("registerLoader");
+        loader.style.display = "none";
+    }
+    
+    async function showContent() {
+        const content = document.getElementById("messageDiv");
+        content.style.display = "block";
+    }
+
+    async function showLoader() {
+        const loader = document.getElementById("registerLoader");
+        loader.classList.add("loader")
+        loader.style.display = "block";
+    }
+    
+    async function hideContent() {
+        const content = document.getElementById("messageDiv");
+        content.style.display = "none";
     }
 
 }
