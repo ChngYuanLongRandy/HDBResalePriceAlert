@@ -13,6 +13,12 @@ app.config['DATABASE'] = 'database.db'
 app.config['EMAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
 config_path = "app/config/config.yaml"
 
+# Database configuration
+app.config['MYSQL_HOST'] = "mysql"  # This should match the service name in Docker Compose
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_ROOT_PASSWORD'] = os.environ.get('MYSQL_ROOT_PASSWORD')
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 create_tables()
 
