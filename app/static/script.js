@@ -177,7 +177,7 @@ async function registerUser() {
     const streetName = document.getElementById('streetName').value;
     const blkNumberFrom = document.getElementById('blkNumberFrom').value;
     const blkNumberTo = document.getElementById('blkNumberTo').value;
-
+    let success = true;
     // Replace the URL with the actual endpoint for registering a user
     const registerEndpoint = '/register';
 
@@ -203,38 +203,49 @@ async function registerUser() {
         console.log('Data:', data);
         // Handle the response data as needed
         console.log('Submission successful:', data);
-        showMessage();
+        showMessage(success);
     } catch (error) {
+        success = false;
+        showMessage(success);
         console.error('Error during submission:', error.message);
     }
 
-    function showMessage(success){
-        // Get the button and the message elements
-        var registerBtn = document.getElementById("registerBtn");
-        var message = document.getElementById("message");
-        
+    function showMessage(success) {
         // Create a new message element if it does not exist
         message = document.createElement("div");
         message.id = "message";
         if (success) {
             message.innerHTML = "Registration Success! <br>You will receive an email from us shortly for confirmation";
-        }
-
-        else {
+        } else {
             message.innerHTML = "Registration Failure, kindly retry or contact me <a href='mailto:chngyuanlong@gmail.com'>here</a>"
         }
 
-        document.body.appendChild(message);
+        document.getElementById('messageDiv').appendChild(message);
         // Show the message element
         message.style.display = "block";
         // Set the opacity to 1 (visible)
         message.style.opacity = "1";
-        setTimeout(function() {
-            // Set the opacity to 0 (transparent)
-            message.style.opacity = "0";
-            // Set the display to none (hidden)
-            message.style.display = "none";
-            }, 5000);
+        // Adjust the timeout to gradually fade out during the last 2 seconds
+        const fadeOutStart = 3000;  // Start fading out at 3 seconds
+        const fadeOutDuration = 2000;  // Fade out over 2 seconds
+        setTimeout(function () {
+            const fadeOutInterval = 50;  // Adjust the interval as needed
+            const steps = fadeOutDuration / fadeOutInterval;
+            let currentStep = 0;
+    
+            const fadeOutTimer = setInterval(function () {
+                if (currentStep < steps) {
+                    const opacity = 1 - (currentStep / steps);
+                    message.style.opacity = opacity.toString();
+                    currentStep++;
+                } else {
+                    // Clear the interval once fading out is complete
+                    clearInterval(fadeOutTimer);
+                    // Set the display to none (hidden)
+                    message.style.display = "none";
+                }
+            }, fadeOutInterval);
+        }, fadeOutStart);
     }
 
 }
