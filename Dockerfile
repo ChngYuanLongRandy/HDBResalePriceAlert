@@ -19,4 +19,4 @@ USER 2222
 
 WORKDIR $HOME_DIR/${DESTINATION_FOLDER}
 
-CMD [ "python3 app/app.py" ]
+CMD [ "python3", "app/app.py" ]
