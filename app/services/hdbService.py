@@ -4,8 +4,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
-
+import logging 
 import yaml
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 config_path = "app/config/config.yaml"
 with open(config_path, 'r') as yaml_file:
@@ -26,8 +30,8 @@ filepath = "hdb.csv"
 #     send_email(df)
 
 def get_results(params:dict, headers: list, format:str ="json"):
-    print("Starting get results method")
-    print(f"Params are :{params}")
+    logger.info("Starting get results method")
+    logger.info(f"Params are :{params}")
     try:
         driver = start_driver(params)
         run_query_success(driver, params)
@@ -40,7 +44,7 @@ def get_results(params:dict, headers: list, format:str ="json"):
         elif format.lower() == "json":
             return df.to_json(orient='records')
     except Exception as ex:
-        print(f"Unable to process due to {ex}")
+        logger.info(f"Unable to process due to {ex}")
 
 # start the driver, returns a webdriver chrome object
 def start_driver(params:dict) -> webdriver.Chrome:
@@ -58,14 +62,14 @@ def start_driver(params:dict) -> webdriver.Chrome:
 
 # runs the query in the website with HDB town 
 def run_query_hdb(driver: webdriver.Chrome, params:dict):
-    print("running hdb")
+    logger.info("running hdb")
     hdb_town = driver.find_element(By.NAME, params["town_title"])
     hdb_town.send_keys(params["town_val"])
 
 
 # runs the query in the website with Street Name
 def run_query_street(driver: webdriver.Chrome, params:dict):
-    print("running street")
+    logger.info("running street")
     street_field = driver.find_element(By.NAME , params["street_title"])
     street_field.send_keys(params["street_val"])
     blk_from_field = driver.find_element(By.NAME , params["blk_from_title"])
@@ -145,11 +149,11 @@ def write_to_dataframe_street(driver:webdriver.Chrome, headers:list)->pd.DataFra
 # saves file locally
 def save_dataframe(df:pd.DataFrame, filepath:str, headers:str) ->None:
     try:
-        print("saving to csv...")
-        print(df.head())
+        logger.info("saving to csv...")
+        logger.info(df.head())
         df.to_csv(filepath, columns=headers, index=False)
     except Exception as ex:
-        print("unable to save due to {}",ex)
+        logger.info("unable to save due to {}",ex)
 
 
 # if (__name__ == "__main__") :

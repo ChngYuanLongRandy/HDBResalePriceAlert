@@ -4,8 +4,12 @@ import yaml
 from model.User import User
 from model.SubUser import SubUser
 from typing import List
-# from app import app
 import os
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 databaseName = 'database'
 port = '3306'
@@ -18,8 +22,8 @@ mySQLRootPassword = os.environ.get('MYSQL_ROOT_PASSWORD')
 config = {
     'host': 'mysql',  # This should match the service name in Docker Compose
     'port': '3306',   # This should match the exposed port on the host
-    'user': 'user',
-    'password': 'password',
+    'user': 'root',
+    'password': 'root',
     'database': 'db',
 }
 
@@ -37,8 +41,9 @@ def create_tables():
 
     if not table_exists:
         cursor.execute(
-            '''CREATE TABLE emails (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            '''
+            CREATE TABLE emails (
+            id INT PRIMARY KEY AUTO_INCREMENT,
             created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             email VARCHAR(255) NOT NULL,
             verified BOOLEAN NOT NULL,
@@ -47,43 +52,37 @@ def create_tables():
             blkFrom INT NOT NULL,
             blkTo INT NOT NULL,
             lastSent TIMESTAMP,
-            sent BOOLEAN
+            token VARCHAR(255))
             ''')
         connection.commit()
         connection.close()
 
 def add_email(new_user:SubUser):
     try:
-        connection = sqlite3.connect('database.db')
+        logger.info("Entering Add email method from dbservice")
+        connection = mysql.connector.connect(**config)
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (new_user.email,' false', new_user.flatType, new_user.streetName, new_user.blkFrom, new_user.blkTo, 'null', 'null'))
+        cursor.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                (new_user.email, False, new_user.flatType, new_user.streetName, new_user.blkFrom, new_user.blkTo, None, None))        
         connection.commit()
         connection.close()
     except Exception as ex:
-        print(f"Unable to add email due to {ex}")
+        logger.error(f"Unable to add email due to {ex}")
 
 def get_emails() -> List[User]: 
     try:
-        print("Entering Get emails method from dbservice")
-        connection = sqlite3.connect('database.db')
+        logger.info("Entering Get emails method from dbservice")
+        connection = mysql.connector.connect(**config)
         cursor = connection.cursor()
 
         cursor.execute("SELECT * FROM emails")
         rows = cursor.fetchall()
 
-    #     print(f"Rows from the database: {rows}")
-
-    # #  # Convert ' True' and ' False' to True and False
-    # #     cleaned_rows = [(item if not isinstance(item, str) else item.strip() == 'True') for row in rows for item in row]
-
-        # emails = [User.from_dict(dict(row)) for row in rows]
-
         emails = []
         for row in rows:
             user = User(row[0],row[1],row[2],row[3],
                 row[4],row[5],row[6],row[7],row[8],row[9])
-            print(user)
+            logger.info(user)
             emails.append(user)
 
         emails = [User(row[0],row[1],row[2],row[3],
@@ -94,18 +93,18 @@ def get_emails() -> List[User]:
 
         return emails
     except Exception as ex:
-        print(f"Unable to retrieve all emails due to {ex}")
+        logger.error(f"Unable to retrieve all emails due to {ex}")
 
 def get_email(email:str) -> User:
-    print("Entering get email method")
-    print(f"Email is {email}")
-    connection = sqlite3.connect('database.db')
+    logger.info("Entering get email method")
+    logger.info(f"Email is {email}")
+    connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM emails where email = (?)", (email,))
+    cursor.execute("SELECT * FROM emails where email = %s", (email,))
     rows = cursor.fetchone()
 
-    print(f'Rows in get email : {rows}')
+    logger.info(f'Rows in get email : {rows}')
 
     emails = [User(row[0],row[1],row[2],row[3],
                 row[4],row[5],row[6],row[7],row[8],row[9]) for row in rows]
@@ -115,28 +114,27 @@ def get_email(email:str) -> User:
 
     return emails
 
+
 def update_user_with_senddatetime(user:User, datetime:str):
-    connection = sqlite3.connect('database.db')
+    connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
 
-    cursor.execute("UPDATE emails SET lastSent = (?)  where token == (?)", (datetime,user.token,))
+    cursor.execute("UPDATE emails SET lastSent = %s WHERE token = %s", (datetime,user.token))
 
     connection.commit()
     connection.close()
 
-#   retrieves the email by the token
 def get_email_by_token(token:str)-> User:
-
-    print("Entering get email by token method")
-    print(f"Token is {token}")
-    connection = sqlite3.connect('database.db')
+    logger.info("Entering get email by token method")
+    logger.info(f"Token is {token}")
+    connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM emails where token = (?)", (token,))
+    cursor.execute("SELECT * FROM emails WHERE token = %s", (token,))
     rows = cursor.fetchall()
 
     assert len(rows) == 1
-    print(f'Email found in database: {rows}')
+    logger.info(f'Email found in database: {rows}')
 
     emails = [User(row[0],row[1],row[2],row[3],
                 row[4],row[5],row[6],row[7],row[8],row[9]) for row in rows]
@@ -144,15 +142,13 @@ def get_email_by_token(token:str)-> User:
     connection.commit()
     connection.close()
 
-
     return emails[0]
 
 def update_email_with_token(new_user:SubUser , token:str):
-
-    print("Entering update email with token")
-    print(f"Token is {token}")
-    print(f"New user is {new_user}")
-    connection = sqlite3.connect('database.db')
+    logger.info("Entering update email with token")
+    logger.info(f"Token is {token}")
+    logger.info(f"New user is {new_user}")
+    connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
     email = new_user.email
     flatType = new_user.flatType
@@ -161,39 +157,37 @@ def update_email_with_token(new_user:SubUser , token:str):
     blkTo = new_user.blkTo 
     
     cursor.execute("""
-                   UPDATE emails SET token = (?)  
-                   where email == (?) AND 
-                   flatType == (?) AND
-                   streetname == (?) AND
-                   blkFrom == (?) AND
-                   blkTo == (?) 
+                   UPDATE emails SET token = %s  
+                   WHERE email = %s AND 
+                   flatType = %s AND
+                   streetname = %s AND
+                   blkFrom = %s AND
+                   blkTo = %s 
                    """  
                    , (token, email, flatType, streetName, blkFrom, blkTo))
 
     connection.commit()
     connection.close()
 
-#   updates the row with verified 
 def update_email_verified_true(email:str):
-
-    print("Entering update email verified true method")
-    print(f"Email is {email}")
-    connection = sqlite3.connect('database.db')
+    logger.info("Entering update email verified true method")
+    logger.info(f"Email is {email}")
+    connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
 
-    cursor.execute("UPDATE emails set verified == true where email = (?)", (email,))
+    cursor.execute("UPDATE emails SET verified = true WHERE email = %s", (email,))
 
     connection.commit()
     connection.close()
 
 def get_user_by_token(token:str) -> User:
     try:
-        print("Entering get user by token")
-        print(f"Token is {token}")
-        connection = sqlite3.connect('database.db')
+        logger.info("Entering get user by token")
+        logger.info(f"Token is {token}")
+        connection = mysql.connector.connect(**config)
         cursor = connection.cursor()
 
-        cursor.execute("SELECT * from emails where token == (?)", (token,))
+        cursor.execute("SELECT * FROM emails WHERE token = %s", (token,))
         rows = cursor.fetchall()
 
         assert len(rows) == 1
@@ -207,19 +201,18 @@ def get_user_by_token(token:str) -> User:
         return emails[0]
 
     except Exception as ex:
-        print(f"Unable to execute due to {ex}")
+        logger.error(f"Unable to execute due to {ex}")
 
-#   delete alert based on token
 def remove_alert_based_on_token(user:User):
     try:
-        print("Entering Remove alert based on token")
-        print(f"user is {user}")
-        connection = sqlite3.connect('database.db')
+        logger.info("Entering Remove alert based on token")
+        logger.info(f"user is {user}")
+        connection = mysql.connector.connect(**config)
         cursor = connection.cursor()
 
-        cursor.execute("DELETE from emails where token == (?)", (user.token,))
+        cursor.execute("DELETE FROM emails WHERE token = %s", (user.token,))
 
         connection.commit()
         connection.close()
     except Exception as ex:
-        print(f"Unable to execute due to {ex}")
+        logger.error(f"Unable to execute due to {ex}")

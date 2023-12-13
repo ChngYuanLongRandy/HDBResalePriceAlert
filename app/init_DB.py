@@ -20,9 +20,9 @@ mySQLRootPassword = os.environ.get('MYSQL_ROOT_PASSWORD')
 
 config = {
     'host': 'mysql',  # This should match the service name in Docker Compose
-    'port': '3307',   # This should match the exposed port on the host
-    'user': 'user',
-    'password': 'password',
+    'port': '3306',   # This should match the exposed port on the host
+    'user': 'root',
+    'password': 'root',
     'database': 'db',
 }
 
@@ -39,11 +39,11 @@ try:
 
     cur = connection.cursor()
 
-    cur.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    cur.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 ('dummy@gmail.com',' True', '4-room', 'Ang Mo Kio Ave 3', '322', '328', 'null', 'null')
                 )
 
-    cur.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    cur.execute("INSERT INTO emails (email, verified, flatType, streetName, blkFrom, blkTo, lastSent, token) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 ('dummy@hotmail.com',' True', '5-room', 'Ang Mo Kio Ave 3', '322', '328', 'null', 'null')
                 )
 

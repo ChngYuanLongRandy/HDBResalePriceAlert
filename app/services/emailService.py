@@ -3,7 +3,13 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
 from model.SubUser import SubUser
+import logging
 # from app import app
+
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # email_password = app.config['EMAIL_PASSWORD']
 email_password = 'qcbx wfzf eysm xlxk'
@@ -24,15 +30,15 @@ def send_email(df:pd.DataFrame, email:str):
     message['To'] = receiver_email
     message['Subject'] = "HDB Resale Alert"
     try:
-        print(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
-        print(f"With email body : {html_body}")
+        logger.info(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
+        logger.info(f"With email body : {html_body}")
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             server.sendmail(sender_email, receiver_email, message.as_string())
-        print("Email sent!")
+        logger.info("Email sent!")
     except Exception as ex:
-        print(f"Unable to send email due to {ex} ")
+        logger.error(f"Unable to send email due to {ex} ")
 
 def send_email_template(email:str, header:str, footer:str, with_df:bool == None, df:pd.DataFrame == None):
     try:
@@ -52,15 +58,15 @@ def send_email_template(email:str, header:str, footer:str, with_df:bool == None,
         message['From'] = service_email
         message['To'] = email
         message['Subject'] = "HDB Resale Alert"
-        print(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
-        print(f"With email body : {html_body}")
+        logger.info(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
+        logger.info(f"With email body : {html_body}")
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(service_email, password)
             server.sendmail(service_email, email, message.as_string())
-        print("Email sent!")
+        logger.info("Email sent!")
     except Exception as ex:
-        print(f"Unable to send email due to {ex} ")
+        logger.error(f"Unable to send email due to {ex} ")
 
 # def send_confirmation_email(email:str, confirmation_link:str):
 #     content = f'You are signing up for HDB Resale Price Alerts. Please click the following link to confirm your email: {confirmation_link}'
@@ -69,13 +75,13 @@ def send_email_template(email:str, header:str, footer:str, with_df:bool == None,
 # sends an email
 def send_confirmation_email(new_user:SubUser, confirmation_link:str):
     try:
-        print("Entering send confirmation email")
+        logger.info("Entering send confirmation email")
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
         sender_email = 'hdbresalealertservice@gmail.com'
         receiver_email  = new_user.email
         password = email_password
-        domainname = "localhost:5000"
+        domainname = "http://randychng.com"
         message = MIMEMultipart()
         body = f"""
 <p>You are signing up for HDB Resale Price Alerts with the following search parameters:</p>
@@ -95,14 +101,14 @@ def send_confirmation_email(new_user:SubUser, confirmation_link:str):
         message['To'] = receiver_email
         message['Subject'] = "HDB Resale Alert"
         try:
-            print(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
-            print(f"With email body : {message}")
+            logger.info(f"attempting to send email with following params -> from: {message['From']} To: {message['To']} Subject: {message['Subject']}")
+            logger.info(f"With email body : {message}")
             context = ssl.create_default_context()
             with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
                 server.login(sender_email, password)
                 server.sendmail(sender_email, receiver_email, message.as_string())
-            print("Email sent!")
+            logger.info("Email sent!")
         except Exception as ex:
-            print(f"Unable to send email due to {ex} ")
+            logger.error(f"Unable to send email due to {ex} ")
     except Exception as ex:
-        print(f"Unable to send email due to {ex} ")  
+        logger.error(f"Unable to send email due to {ex} ")  
