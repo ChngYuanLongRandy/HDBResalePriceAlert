@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib, ssl
 from model.SubUser import SubUser
-from app import app
+# from app import app
 
 # email_password = app.config['EMAIL_PASSWORD']
 email_password = 'qcbx wfzf eysm xlxk'

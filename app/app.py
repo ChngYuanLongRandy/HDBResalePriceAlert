@@ -10,6 +10,7 @@ import os
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'database.db'
+app.config['PORT'] = '3306'
 app.config['EMAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
 config_path = "app/config/config.yaml"
 

@@ -1,9 +1,27 @@
-import sqlite3
+import mysql.connector
 from flask import g
 import yaml
 from model.User import User
 from model.SubUser import SubUser
 from typing import List
+# from app import app
+import os
+
+databaseName = 'database'
+port = '3306'
+mySQLHost = 'mysql'
+mySQLHost = os.environ.get('MYSQL_HOST')  # This should match the service name in Docker Compose
+mySQLUser = os.environ.get('MYSQL_USER')
+mySQLPassword = os.environ.get('MYSQL_PASSWORD') 
+mySQLRootPassword = os.environ.get('MYSQL_ROOT_PASSWORD')
+
+config = {
+    'host': 'mysql',  # This should match the service name in Docker Compose
+    'port': '3306',   # This should match the exposed port on the host
+    'user': 'user',
+    'password': 'password',
+    'database': 'db',
+}
 
 config_path = "app/config/config.yaml"
 
@@ -11,9 +29,10 @@ with open(config_path, 'r') as yaml_file:
     configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 def create_tables():
-    connection = sqlite3.connect('database.db')
+    connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='emails'")
+    # Check if 'emails' table already exists
+    cursor.execute("SHOW TABLES LIKE 'emails'")
     table_exists = cursor.fetchone()
 
     if not table_exists:
@@ -21,12 +40,12 @@ def create_tables():
             '''CREATE TABLE emails (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            email TEXT NOT NULL,
+            email VARCHAR(255) NOT NULL,
             verified BOOLEAN NOT NULL,
-            flatType TEXT NOT NULL,
-            streetName TEXT NOT NULL,
-            blkFrom INTEGER NOT NULL,
-            blkTo INTEGER NOT NULL,
+            flatType VARCHAR(255) NOT NULL,
+            streetName VARCHAR(255) NOT NULL,
+            blkFrom INT NOT NULL,
+            blkTo INT NOT NULL,
             lastSent TIMESTAMP,
             sent BOOLEAN
             ''')
