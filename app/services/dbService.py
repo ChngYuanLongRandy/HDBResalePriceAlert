@@ -33,29 +33,32 @@ with open(config_path, 'r') as yaml_file:
     configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 def create_tables():
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
-    # Check if 'emails' table already exists
-    cursor.execute("SHOW TABLES LIKE 'emails'")
-    table_exists = cursor.fetchone()
+    try:
+        connection = mysql.connector.connect(**config)
+        cursor = connection.cursor()
+        # Check if 'emails' table already exists
+        cursor.execute("SHOW TABLES LIKE 'emails'")
+        table_exists = cursor.fetchone()
 
-    if not table_exists:
-        cursor.execute(
-            '''
-            CREATE TABLE emails (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            email VARCHAR(255) NOT NULL,
-            verified BOOLEAN NOT NULL,
-            flatType VARCHAR(255) NOT NULL,
-            streetName VARCHAR(255) NOT NULL,
-            blkFrom INT NOT NULL,
-            blkTo INT NOT NULL,
-            lastSent TIMESTAMP,
-            token VARCHAR(255))
-            ''')
-        connection.commit()
-        connection.close()
+        if not table_exists:
+            cursor.execute(
+                '''
+                CREATE TABLE emails (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                email VARCHAR(255) NOT NULL,
+                verified BOOLEAN NOT NULL,
+                flatType VARCHAR(255) NOT NULL,
+                streetName VARCHAR(255) NOT NULL,
+                blkFrom INT NOT NULL,
+                blkTo INT NOT NULL,
+                lastSent TIMESTAMP,
+                token VARCHAR(255))
+                ''')
+            connection.commit()
+            connection.close()
+    except Exception as e:
+        logger.error(f"Unable to create table due to {e}")
 
 def add_email(new_user:SubUser):
     try:

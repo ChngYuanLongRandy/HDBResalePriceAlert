@@ -4,9 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
-import logging 
+import logging
 import yaml
-
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -44,21 +43,26 @@ def get_results(params:dict, headers: list, format:str ="json"):
         elif format.lower() == "json":
             return df.to_json(orient='records')
     except Exception as ex:
-        logger.info(f"Unable to process due to {ex}")
+        logger.error(f"Unable to process due to {ex}")
 
 # start the driver, returns a webdriver chrome object
 def start_driver(params:dict) -> webdriver.Chrome:
+    logger.info("Starting driver")
+    try:
 
-    # Set up Chrome options
-    chrome_options = Options()
-    # service = Service('/usr/lib/chromium-browser/chromedriver')
-    chrome_options.add_argument('--headless')  # Run in headless mode
-    # driver = webdriver.Chrome(options=chrome_options, service=service)
-    driver = webdriver.Chrome(options=chrome_options)
-    # driver = webdriver.Chrome()
-    driver.get(params["hdb_link"])
-    assert params["hdb_title"] in driver.title
-    return driver
+        # Set up Chrome options
+        chrome_options = Options()
+        service = Service('/usr/bin/chromedriver')
+        # service = Service('/usr/lib/chromium-browser/chromedriver')
+        chrome_options.add_argument('--headless')  # Run in headless mode
+        driver = webdriver.Chrome(options=chrome_options, service=service)
+        # driver = webdriver.Chrome()
+        driver.get(params["hdb_link"])
+        assert params["hdb_title"] in driver.title
+        return driver
+    except Exception as e:
+        logger.error(f'Unable to start driver due to {e}')
+
 
 # runs the query in the website with HDB town 
 def run_query_hdb(driver: webdriver.Chrome, params:dict):
