@@ -19,11 +19,11 @@ mySQLRootPassword = os.environ.get('MYSQL_ROOT_PASSWORD')
 #     }
 
 config = {
-    'host': 'mysql',  # This should match the service name in Docker Compose
-    'port': '3306',   # This should match the exposed port on the host
-    'user': 'root',
-    'password': 'root',
-    'database': 'db',
+    'host': mySQLHost,  # This should match the service name in Docker Compose
+    'port': port,   # This should match the exposed port on the host
+    'user': mySQLUser,
+    'password': mySQLPassword,
+    'database': databaseName,
 }
 
 try:

@@ -11,19 +11,25 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-databaseName = 'database'
-port = '3306'
-mySQLHost = 'mysql'
-mySQLHost = os.environ.get('MYSQL_HOST')  # This should match the service name in Docker Compose
+databaseName = os.environ.get('MYSQL_DATABASE')
+port = '3307'
+mySQLHost = '172.18.0.1'
 mySQLUser = os.environ.get('MYSQL_USER')
 mySQLPassword = os.environ.get('MYSQL_PASSWORD') 
-mySQLRootPassword = os.environ.get('MYSQL_ROOT_PASSWORD')
+
+# config = {
+#     'host': mySQLHost,  # This should match the service name in Docker Compose
+#     'port': port,   # This should match the exposed port on the host
+#     'user': mySQLUser,
+#     'password': mySQLPassword,
+#     'database': databaseName,
+# }
 
 config = {
     'host': 'mysql',  # This should match the service name in Docker Compose
     'port': '3306',   # This should match the exposed port on the host
-    'user': 'root',
-    'password': 'root',
+    'user': 'user',
+    'password': 'password',
     'database': 'db',
 }
 
@@ -33,29 +39,34 @@ with open(config_path, 'r') as yaml_file:
     configData = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 def create_tables():
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
-    # Check if 'emails' table already exists
-    cursor.execute("SHOW TABLES LIKE 'emails'")
-    table_exists = cursor.fetchone()
+    logger.info("Entering create tables method from dbservice")
+    try:
+        connection = mysql.connector.connect(**config)
+        cursor = connection.cursor()
+        # Check if 'emails' table already exists
+        cursor.execute("SHOW TABLES LIKE 'emails'")
+        table_exists = cursor.fetchone()
 
-    if not table_exists:
-        cursor.execute(
-            '''
-            CREATE TABLE emails (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            email VARCHAR(255) NOT NULL,
-            verified BOOLEAN NOT NULL,
-            flatType VARCHAR(255) NOT NULL,
-            streetName VARCHAR(255) NOT NULL,
-            blkFrom INT NOT NULL,
-            blkTo INT NOT NULL,
-            lastSent TIMESTAMP,
-            token VARCHAR(255))
-            ''')
-        connection.commit()
-        connection.close()
+        if not table_exists:
+            cursor.execute(
+                '''
+                CREATE TABLE emails (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                email VARCHAR(255) NOT NULL,
+                verified BOOLEAN NOT NULL,
+                flatType VARCHAR(255) NOT NULL,
+                streetName VARCHAR(255) NOT NULL,
+                blkFrom INT NOT NULL,
+                blkTo INT NOT NULL,
+                lastSent TIMESTAMP,
+                token VARCHAR(255))
+                ''')
+            connection.commit()
+            connection.close()
+    except Exception as e:
+        logger.error(f"Unable to create tables due to {e}")
+
 
 def add_email(new_user:SubUser):
     try:

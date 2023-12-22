@@ -53,6 +53,12 @@ def start_driver(params:dict) -> webdriver.Chrome:
     chrome_options = Options()
     # service = Service('/usr/lib/chromium-browser/chromedriver')
     chrome_options.add_argument('--headless')  # Run in headless mode
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--window-size=1420,1080')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("--disable-notifications")
+    chrome_options.add_argument("--remote-debugging-port=9222")
     # driver = webdriver.Chrome(options=chrome_options, service=service)
     driver = webdriver.Chrome(options=chrome_options)
     # driver = webdriver.Chrome()
