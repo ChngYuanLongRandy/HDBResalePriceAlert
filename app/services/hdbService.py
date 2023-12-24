@@ -18,17 +18,6 @@ with open(config_path, 'r') as yaml_file:
 
 filepath = "hdb.csv"
 
-# def main_hdb():
-#     driver = start_driver()
-#     run_query_success(driver, params_hdb)
-#     if params_hdb["street_val"]:
-#         df = write_to_dataframe_street(driver, headers_street)
-#         save_dataframe(df, filepath, headers_street)
-#     else:
-#         df = write_to_dataframe_hdb(driver, headers_hdb)
-#         save_dataframe(df, filepath, headers_hdb)
-#     send_email(df)
-
 def get_results(params:dict, headers: list, format:str ="json"):
     logger.info("Starting get results method")
     logger.info(f"Params are :{params}")
@@ -51,7 +40,7 @@ def start_driver(params:dict) -> webdriver.Chrome:
 
     # Set up Chrome options
     chrome_options = Options()
-    # service = Service('/usr/lib/chromium-browser/chromedriver')
+    service = Service('/usr/bin/chromedriver')
     chrome_options.add_argument('--headless')  # Run in headless mode
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--window-size=1420,1080')
@@ -59,9 +48,7 @@ def start_driver(params:dict) -> webdriver.Chrome:
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--remote-debugging-port=9222")
-    # driver = webdriver.Chrome(options=chrome_options, service=service)
-    driver = webdriver.Chrome(options=chrome_options)
-    # driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=chrome_options, service=service)
     driver.get(params["hdb_link"])
     assert params["hdb_title"] in driver.title
     return driver
@@ -160,7 +147,3 @@ def save_dataframe(df:pd.DataFrame, filepath:str, headers:str) ->None:
         df.to_csv(filepath, columns=headers, index=False)
     except Exception as ex:
         logger.info("unable to save due to {}",ex)
-
-
-# if (__name__ == "__main__") :
-#     main_hdb()

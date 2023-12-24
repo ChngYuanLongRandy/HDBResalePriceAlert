@@ -16,8 +16,10 @@ params:
     date_range_title : "dteRange"
     submit_btn_id : "btnSubmit"
 
-core:
-    db_name : HDBResalePriceAlertEmail.db
+email:
+    domain_name: hdb.randychng.com
+    sender_email: hdbresalealertservice@gmail.com
+    smtp_server: "smtp.gmail.com"
 
 flat_type_combobox:
     - 1-Room
