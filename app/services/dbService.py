@@ -12,25 +12,17 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 databaseName = os.environ.get('MYSQL_DATABASE')
-port = '3307'
-mySQLHost = '172.18.0.1'
+mySQLHost = os.environ.get('MYSQL_HOST')
 mySQLUser = os.environ.get('MYSQL_USER')
 mySQLPassword = os.environ.get('MYSQL_PASSWORD') 
-
-# config = {
-#     'host': mySQLHost,  # This should match the service name in Docker Compose
-#     'port': port,   # This should match the exposed port on the host
-#     'user': mySQLUser,
-#     'password': mySQLPassword,
-#     'database': databaseName,
-# }
+mySQLPort = int(os.environ.get('MYSQL_PORT'))
 
 config = {
-    'host': 'mysql',  # This should match the service name in Docker Compose
-    'port': '3306',   # This should match the exposed port on the host
-    'user': 'user',
-    'password': 'password',
-    'database': 'db',
+    'host': mySQLHost,  # This should match the service name in Docker Compose
+    'port': mySQLPort,   # This should match the exposed port on the host
+    'user': mySQLUser,
+    'password': mySQLPassword,
+    'database': databaseName,
 }
 
 config_path = "app/config/config.yaml"

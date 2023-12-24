@@ -6,7 +6,6 @@ from services.dbService import *
 from datetime import datetime
 import yaml
 import secrets
-import os
 import time
 
 # Set up logging
@@ -14,17 +13,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.config['DATABASE'] = 'database.db'
-app.config['PORT'] = '3306'
-app.config['EMAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
 config_path = "app/config/config.yaml"
-
-# Database configuration
-app.config['MYSQL_HOST'] = "mysql"  # This should match the service name in Docker Compose
-app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
-app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
-app.config['MYSQL_ROOT_PASSWORD'] = os.environ.get('MYSQL_ROOT_PASSWORD')
-# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 time.sleep(10)
 create_tables()
@@ -83,15 +72,8 @@ def register():
     try:
         logger.info("Entering register method")
 
-        input_params = {}
-
         data = request.get_json()
         new_user = SubUser(data['email'],data['flatType'],data['streetName'],data['blkNumberFrom'],data['blkNumberTo'])
-        # input_params["email"] = data['email']
-        # input_params['flat_type_val'] = data['flatType']
-        # input_params["street_val"] = data['streetName']
-        # input_params["blk_from_val"] = data['blkNumberFrom']
-        # input_params['blk_to_val'] = data['blkNumberTo']
 
         users = get_emails()
         logger.info("logger.infoing all emails in db")
@@ -156,27 +138,12 @@ def testSendEmail():
                 logger.info(user.email)
                 verified_users.append(user)
 
-        # sorted_emails = {}
-
         # # Sorts them into identical lists
         # for email in emails:
         logger.info(f"Contents of verified_users : {verified_users}")
 
         for verified_user in verified_users:
             logger.info(f"verified_user : {verified_user}")
-            # email_params = get_email(email)
-            # logger.info(f'Email params : {email_params}')
-            # logger.info(f"email_params['flatType'] : {email_params['flatType']}")
-            # logger.info(f"params flat type val : {params['params']['flat_type_val']}")
-
-            # params['params']['flat_type_val'] = email_params['flatType']
-            # logger.info('passed 1')
-            # params['params']['street_val'] = email_params['streetname']
-            # logger.info('passed 2')
-            # params['params']['blk_from_val'] = email_params['blkFrom']
-            # logger.info('passed 3')
-            # params['params']['blk_to_val'] = email_params['blkTo']
-            # logger.info('passed 4')
 
             params['params']['flat_type_val'] = verified_user.flatType
             params['params']['street_val'] = verified_user.streetName
@@ -196,7 +163,7 @@ def testSendEmail():
 
         
         json_results = {
-        'emails': [user.email for user in verified_users]
+            'emails': [user.email for user in verified_users]
         }   
 
         return jsonify({'message': 'Emails sent', 'data': json_results}), 200

@@ -32,24 +32,34 @@ networks:
 # services:
 #   mysql:
 #     image: mysql:latest
-#     ports:
-#       - "3307:3306"
+#     expose:
+#       - 3306
+#     # ports:
+#     #   - 3307:3306
 #     networks:
-#       - sql_network
+#       - hdb_alert_network
 #     environment:
 #       MYSQL_ROOT_PASSWORD: root
-#       MYSQL_DATABASE: db
+#       MYSQL_DATABASE: hdbalert
 #       MYSQL_USER: user
 #       MYSQL_PASSWORD: password
+#       MYSQL_HOST: mysql
 #     volumes:
-#       - /srv/dev-disk-by-uuid-a6c6051a-8b8a-42a5-9851-8cee39a32197/data/hdbalert/mysql_data:/var/lib/mysql
+#       - /srv/dev-disk-by-uuid-a6c6051a-8b8a-42a5-9851-8cee39a32197/data/hdbalert/mysql_data_new:/var/lib/mysql
 
 #   python_app:
-#     image: hashketh/hdb-alert:0.1linux64
+#     image: hashketh/hdb-alert:0.1linuxarm64-dbconfig
 #     networks:
-#       - sql_network
+#       - hdb_alert_network
 #     ports:
 #       - "5000:5000"
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: hdbalert
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: password
+#       MYSQL_HOST: mysql
+#       MYSQL_PORT: 3306
 #     depends_on:
 #       - mysql
 #     volumes:
@@ -58,4 +68,4 @@ networks:
 # volumes:
 #   mysql_data:
 # networks:
-#   sql_network:
+#   hdb_alert_network:
