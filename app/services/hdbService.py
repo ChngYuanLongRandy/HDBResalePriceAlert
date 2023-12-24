@@ -63,6 +63,22 @@ def start_driver(params:dict) -> webdriver.Chrome:
     except Exception as e:
         logger.error(f'Unable to start driver due to {e}')
 
+    # Set up Chrome options
+    chrome_options = Options()
+    # service = Service('/usr/lib/chromium-browser/chromedriver')
+    chrome_options.add_argument('--headless')  # Run in headless mode
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--window-size=1420,1080')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("--disable-notifications")
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    # driver = webdriver.Chrome(options=chrome_options, service=service)
+    driver = webdriver.Chrome(options=chrome_options)
+    # driver = webdriver.Chrome()
+    driver.get(params["hdb_link"])
+    assert params["hdb_title"] in driver.title
+    return driver
 
 # runs the query in the website with HDB town 
 def run_query_hdb(driver: webdriver.Chrome, params:dict):

@@ -26,7 +26,7 @@ app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
 app.config['MYSQL_ROOT_PASSWORD'] = os.environ.get('MYSQL_ROOT_PASSWORD')
 # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-time.sleep(5)
+time.sleep(10)
 create_tables()
 
 @app.route('/')
