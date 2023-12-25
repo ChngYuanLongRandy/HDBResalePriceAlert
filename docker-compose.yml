@@ -39,33 +39,52 @@ networks:
 #     networks:
 #       - hdb_alert_network
 #     environment:
-#       MYSQL_ROOT_PASSWORD: root
-#       MYSQL_DATABASE: hdbalert
-#       MYSQL_USER: user
-#       MYSQL_PASSWORD: password
+#       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/MYSQL_ROOT_PASSWORD_SECRET
+#       MYSQL_DATABASE_FILE: /run/secrets/MYSQL_DATABASE_SECRET
+#       MYSQL_USER_FILE: /run/secrets/MYSQL_USER_SECRET
+#       MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PASSWORD_SECRET
 #       MYSQL_HOST: mysql
 #     volumes:
 #       - /srv/dev-disk-by-uuid-a6c6051a-8b8a-42a5-9851-8cee39a32197/data/hdbalert/mysql_data_new:/var/lib/mysql
+#     secrets:
+#       - MYSQL_ROOT_PASSWORD_SECRET
+#       - MYSQL_DATABASE_SECRET
+#       - MYSQL_PASSWORD_SECRET
+#       - MYSQL_USER_SECRET
 
 #   python_app:
-#     image: hashketh/hdb-alert:0.1linuxarm64-dbconfig
+#     image: hashketh/hdb-alert:linuxarm64-phase1
 #     networks:
 #       - hdb_alert_network
 #     ports:
 #       - "5000:5000"
 #     environment:
-#       MYSQL_ROOT_PASSWORD: root
-#       MYSQL_DATABASE: hdbalert
-#       MYSQL_USER: user
-#       MYSQL_PASSWORD: password
+#       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/MYSQL_ROOT_PASSWORD_SECRET
+#       MYSQL_DATABASE_FILE: /run/secrets/MYSQL_DATABASE_SECRET
+#       MYSQL_USER_FILE: /run/secrets/MYSQL_USER_SECRET
+#       MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PASSWORD_SECRET
 #       MYSQL_HOST: mysql
 #       MYSQL_PORT: 3306
 #     depends_on:
 #       - mysql
 #     volumes:
 #       - /srv/dev-disk-by-uuid-a6c6051a-8b8a-42a5-9851-8cee39a32197/data/hdbalert/app:/app  # Mount your Python application code
+#     secrets:
+#       - MYSQL_ROOT_PASSWORD_SECRET
+#       - MYSQL_DATABASE_SECRET
+#       - MYSQL_PASSWORD_SECRET
+#       - MYSQL_USER_SECRET
 
 # volumes:
 #   mysql_data:
 # networks:
 #   hdb_alert_network:
+# secrets:
+#   MYSQL_ROOT_PASSWORD_SECRET:
+#     external: true
+#   MYSQL_DATABASE_SECRET:
+#     external: true
+#   MYSQL_PASSWORD_SECRET:
+#     external: true
+#   MYSQL_USER_SECRET:
+#     external: true
