@@ -137,7 +137,7 @@ def testSendEmail():
 
         params = configData
         logger.info(params["params"])
-
+        domainname = configData["email"]['domain_name']
         data = request.get_json()
         datetimeSent = data['formattedTimestamp']
         logger.info(f"datetimeSent is {datetimeSent}")
@@ -172,7 +172,7 @@ def testSendEmail():
             update_user_with_senddatetime(verified_user, datetimeSent)
             logger.info(f"Before sending email to {verified_user.email}")
             header = f"""Hi. This is the alert for {datetime.now().month} month, {datetime.now().year}"""
-            footer = f"If you would like to unsubscribe to this alert, click this link : localhost:5000/unsub/{verified_user.token}"
+            footer = f"If you would like to unsubscribe to this alert, click here : <a href='https://{domainname}/unsub/{verified_user.token}' style='color: #3498db; text-decoration: underline;'>here</a></p>"
             send_email_template(verified_user.email,header, footer,True, df)
 
         
