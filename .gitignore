@@ -164,3 +164,10 @@ cython_debug/
 
 # database
 *.db
+
+# Project specific
+# bash script to hide endpoint 
+send_scheduled_email.sh
+codetest.ipynb
+mysql_data
+docker-compose.yml

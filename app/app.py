@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 config_path = "app/config/config.yaml"
 
+# this is because the database when starting up requires time and will refuse connections before it is started up properly
+# observed in production it takes longer but restarting the application container will do the job
 time.sleep(10)
 create_tables()
 
@@ -203,5 +205,4 @@ def unsubscribeAlert(token):
         return render_template('generic404.html')
 
 if __name__ == '__main__':
-    # app.run(debug=True)
     app.run(debug=True, host='0.0.0.0', port=5000)
