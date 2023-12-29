@@ -20,6 +20,9 @@ config_path = "app/config/config.yaml"
 time.sleep(10)
 create_tables()
 
+# Dummy API key for illustration purposes
+API_KEY = os.environ.get('API_KEY')
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -114,8 +117,17 @@ def register():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+def require_api_key(func):
+    def wrapper(*args, **kwargs):
+        api_key = request.headers.get('API-KEY')
+        if api_key != API_KEY:
+            return jsonify({'message': 'Unauthorized. Invalid API key.'}), 401
+        return func(*args, **kwargs)
+    return wrapper
+
 # Takes all of the email that has been verified and sends them according to what they have specified
 @app.route('/testSendEmail', methods=['POST'])
+@require_api_key
 def testSendEmail():
     try:
         logger.info("Entering send email method")

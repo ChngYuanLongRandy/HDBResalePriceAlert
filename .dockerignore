@@ -6,3 +6,5 @@ mysql_data
 README.md
 init_DB.py
 HDBResalePriceAlert.sql
+requirements.txt
+send_scheduled_email.sh
