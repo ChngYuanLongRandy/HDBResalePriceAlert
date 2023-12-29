@@ -168,6 +168,6 @@ cython_debug/
 # Project specific
 # bash script to hide endpoint 
 send_scheduled_email.sh
-requirements.txt
 codetest.ipynb
 mysql_data
+docker-compose.yml
