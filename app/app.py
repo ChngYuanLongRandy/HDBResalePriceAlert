@@ -171,7 +171,7 @@ def testSendEmail():
             logger.info(f"update datetime of email {verified_user.email}")
             update_user_with_senddatetime(verified_user, datetimeSent)
             logger.info(f"Before sending email to {verified_user.email}")
-            header = f"""Hi. This is the alert for {datetime.now().month} month, {datetime.now().year}"""
+            header = f"""Hi. This is the alert for {datetime.now().strftime('%B')} month, {datetime.now().year}"""
             footer = f"If you would like to unsubscribe to this alert, click here : <a href='https://{domainname}/unsub/{verified_user.token}' style='color: #3498db; text-decoration: underline;'>here</a></p>"
             send_email_template(verified_user.email,header, footer,True, df)
 
